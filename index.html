@@ -216,13 +216,12 @@ function buildExecSummary(){
   if(!S.execM||allDatesExec.indexOf(S.execM)<0)S.execM=allDatesExec[allDatesExec.length-1];
   var selDate=S.execM;
 
-  // If global filter is year mode, aggregate all months of that year
-  var f=activeFilter();
-  var isYearMode=f&&f.mode==="year"&&f.yr&&f.yr!=="all";
-  var fatFiltered=isYearMode?fat.filter(function(d){return d.date.slice(0,4)===f.yr;}):null;
+  // Resumo sempre usa modo mês — ignora filtro global de ano
+  var isYearMode=false;
+  var fatFiltered=null;
 
   var selEntry;
-  if(isYearMode&&fatFiltered&&fatFiltered.length){
+  if(false){  // year mode disabled in Resumo
     // Build aggregated entry summing R across all months
     selEntry={date:f.yr+"-sum"};
     var STORES_ALL=["CAM","CAV","SLM","CAX","Total"];
@@ -249,32 +248,35 @@ function buildExecSummary(){
   var hdrRow=h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"12px",flexWrap:"wrap",gap:"8px"}});
   hdrRow.appendChild(h("div",{className:"card-title",style:{marginBottom:"0"}},["📋 Resumo Executivo"]));
 
-  // Month picker: prev/next + dropdown
+  // Month picker: prev/next + dropdown — only shown in month mode
   var picker=h("div",{style:{display:"flex",alignItems:"center",gap:"6px"}});
-  var curIdx=allDatesExec.indexOf(selDate);
+  if(!isYearMode){
+    var curIdx=allDatesExec.indexOf(selDate);
+    var btnPrev=h("button",{
+      style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:curIdx>0?"#e8eaf0":"#3a4060",padding:"3px 10px",cursor:curIdx>0?"pointer":"default",fontSize:"14px"},
+      onClick:curIdx>0?function(){update(function(){S.execM=allDatesExec[curIdx-1];});}:null
+    },["‹"]);
+    picker.appendChild(btnPrev);
 
-  var btnPrev=h("button",{
-    style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:curIdx>0?"#e8eaf0":"#3a4060",padding:"3px 10px",cursor:curIdx>0?"pointer":"default",fontSize:"14px"},
-    onClick:curIdx>0?function(){update(function(){S.execM=allDatesExec[curIdx-1];});}:null
-  },["‹"]);
-  picker.appendChild(btnPrev);
+    var sel=h("select",{
+      style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:"#e8eaf0",padding:"3px 8px",fontSize:"12px",cursor:"pointer"},
+      onChange:function(e){update(function(){S.execM=e.target.value;});}
+    });
+    allDatesExec.forEach(function(d){
+      var opt=h("option",{value:d},[lbl(d)]);
+      if(d===selDate)opt.selected=true;
+      sel.appendChild(opt);
+    });
+    picker.appendChild(sel);
 
-  var sel=h("select",{
-    style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:"#e8eaf0",padding:"3px 8px",fontSize:"12px",cursor:"pointer"},
-    onChange:function(e){update(function(){S.execM=e.target.value;});}
-  });
-  allDatesExec.forEach(function(d){
-    var opt=h("option",{value:d},[lbl(d)]);
-    if(d===selDate)opt.selected=true;
-    sel.appendChild(opt);
-  });
-  picker.appendChild(sel);
-
-  var btnNext=h("button",{
-    style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:curIdx<allDatesExec.length-1?"#e8eaf0":"#3a4060",padding:"3px 10px",cursor:curIdx<allDatesExec.length-1?"pointer":"default",fontSize:"14px"},
-    onClick:curIdx<allDatesExec.length-1?function(){update(function(){S.execM=allDatesExec[curIdx+1];});}:null
-  },["›"]);
-  picker.appendChild(btnNext);
+    var btnNext=h("button",{
+      style:{background:"#1a2035",border:"1px solid #2d3550",borderRadius:"6px",color:curIdx<allDatesExec.length-1?"#e8eaf0":"#3a4060",padding:"3px 10px",cursor:curIdx<allDatesExec.length-1?"pointer":"default",fontSize:"14px"},
+      onClick:curIdx<allDatesExec.length-1?function(){update(function(){S.execM=allDatesExec[curIdx+1];});}:null
+    },["›"]);
+    picker.appendChild(btnNext);
+  } else {
+    picker.appendChild(h("span",{style:{fontSize:"12px",color:"#8b9dc3",padding:"3px 8px"}},["Visão anual — "+f.yr]));
+  }
 
   hdrRow.appendChild(picker);
   wrap.appendChild(hdrRow);
