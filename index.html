@@ -132,7 +132,7 @@ var PINT_CLR={"IQUINE":"#4f8ef7","MEGAÓ":"#f7894f"};
 var ARG_CLR={"Do Mestre":"#4f8ef7","Quartzolit":"#f7894f"};
 var PAL=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f7c94f","#f74f7e","#4fd1f7","#8ef74f"];
 var PCLR=["#4f8ef7","#f7c94f","#4fbf8e","#f7894f","#c97af7","#f74f7e","#a3e635","#8b9dc3"];
-var TABS=["🎯 Metas","👥 Vendedores","📋 Resumo","📈 Faturamento","🧩 Mix Produtos","🏆 Fornecedores","🏠 Pisos"];
+var TABS=["🎯 Metas","📊 Parcial","📋 Resumo","📈 Faturamento","🧩 Mix Produtos","🏆 Fornecedores","🏠 Pisos"];
 
 function lbl(d){var p=d.split("-");return MES[+p[1]-1]+"/"+p[0].slice(2);}
 function fmtK(v){return v==null?"—":"R$ "+(v/1000).toFixed(0)+"k";}
@@ -375,9 +375,9 @@ var S={
   fat:DEFAULT_FAT.slice(), lp:normalizeLPData(DEFAULT_LP), rank:DEFAULT_RANK.slice(), pis:DEFAULT_PISOS.slice(), pint:DEFAULT_PINT.slice(), arg:DEFAULT_ARG.slice(),
   lpCAM:normalizeLPData(DEFAULT_LP_CAM), lpCAV:normalizeLPData(DEFAULT_LP_CAV), lpSLM:normalizeLPData(DEFAULT_LP_SLM), lpCAX:normalizeLPData(DEFAULT_LP_CAX),
   tab:0, lastFile:null, execM:null, execExpanded:{},
-  gMode:"year", gYr:null, gFrom:null, gTo:null,
+  gMode:"range", gYr:null, gFrom:"2026-02-01", gTo:"2026-02-01",
   cmpMode:false, useLocal:false,
-  lMode:"year", lYr:null, lFrom:null, lTo:null,
+  lMode:"range", lYr:null, lFrom:"2026-02-01", lTo:"2026-02-01",
   fatM:"R", pisM:"R", pintM:"R", argM:"R",
   aStores:["CAM","CAV","SLM","CAX"],
   aMix:null, aMixCAM:null, aMixCAV:null, aMixSLM:null, aMixCAX:null, mixStore:null,
@@ -394,6 +394,8 @@ var S={
   // ── Metas ──
   metas:{ CAM:560000, CAV:360000, SLM:680000, CAX:400000 },
   vendStore:"CAM",
+  parcialStore:"CAM",
+  parcialMode:"forn",
   metasVendExp:{},
   parcial:{ CAM:394025.99, CAV:369694.17, SLM:552578.61, CAX:297732.89 },
   parcialDia: 26,
@@ -403,10 +405,10 @@ var S={
 function tabDates(){
   // Returns dates available for the current tab's data source
   var src;
-  if(S.tab===3)src=S.fat;       // Faturamento
-  else if(S.tab===4)src=S.lp;   // Mix Produtos
-  else if(S.tab===5)src=S.rank; // Fornecedores
-  else if(S.tab===6)src=S.pis;  // Pisos
+  if(S.tab===4)src=S.fat;       // Faturamento
+  else if(S.tab===5)src=S.lp;   // Mix Produtos
+  else if(S.tab===6)src=S.rank; // Fornecedores
+  else if(S.tab===7)src=S.pis;  // Pisos
   else src=S.fat;
   return (src||S.fat).map(function(d){return d.date;});
 }
@@ -437,9 +439,11 @@ function activeFilter(){
   var latestYr=latestDate?latestDate.slice(0,4):"all";
   var firstDate=dates[0]||latestDate;
   if(S.useLocal){
-    return{mode:S.lMode,yr:S.lYr||latestYr,from:S.lFrom||firstDate,to:S.lTo||latestDate};
+    var defFromL=S.lMode==="range"&&!S.lFrom?latestDate:(S.lFrom||firstDate);
+    return{mode:S.lMode,yr:S.lYr||latestYr,from:defFromL,to:S.lTo||latestDate};
   }
-  return{mode:S.gMode,yr:S.gYr||latestYr,from:S.gFrom||firstDate,to:S.gTo||latestDate};
+  var defFrom=S.gMode==="range"&&!S.gFrom?latestDate:(S.gFrom||firstDate);
+  return{mode:S.gMode,yr:S.gYr||latestYr,from:defFrom,to:S.gTo||latestDate};
 }
 function applyFilter(arr){
   var f=activeFilter();
@@ -507,7 +511,7 @@ function update(fn){fn();render();}
 
 // ── BUILD APP ────────────────────────────────────────────────────────────────
 
-var DEFAULT_VEND={CAM:{dia:26,meta:80000,rows:[{n:"Conceição",R:91480.83},{n:"Leticia",R:90565.48},{n:"Eliete",R:79300.8},{n:"Chico",R:72497.33},{n:"Junior",R:55391.7}]},CAV:{dia:26,meta:80000,rows:[{n:"Valdete",R:127572.5},{n:"Ana",R:114556.21},{n:"Daciana",R:98537.01},{n:"LILIAN",R:17361.27}]},SLM:{dia:26,meta:80000,rows:[{n:"Carla",R:137985.91},{n:"Jean",R:124974.26},{n:"Constantine",R:113148.42},{n:"Luziane",R:79993.32},{n:"Erick",R:74052.33},{n:"Jessika",R:6196.16}]},CAX:{dia:26,meta:80000,rows:[{n:"Ednalva",R:94230.17},{n:"Tarcila",R:61417.58},{n:"Raphaela",R:51463.54},{n:"Lopes",R:41446.76},{n:"Alci Travassos",R:17257.53},{n:"Carlos Henrique",R:12789.34},{n:"Wellington",R:75.0},{n:"Kamilla",R:56.89}]}};
+var DEFAULT_VEND={CAM:{dia:26,meta:80000,rows:[{n:"Conceição",R:91480.83},{n:"Leticia",R:90565.48},{n:"Eliete",R:79300.80},{n:"Chico",R:72497.33},{n:"Junior",R:55391.70}]},CAV:{dia:26,meta:80000,rows:[{n:"Valdete",R:127572.50},{n:"Ana",R:114556.21},{n:"Daciana",R:98537.01}]},SLM:{dia:26,meta:80000,rows:[{n:"Carla",R:137985.91},{n:"Jean",R:124974.26},{n:"Constantine",R:113148.42},{n:"Luziane",R:79993.32},{n:"Erick",R:74052.33},{n:"Jessika",R:6196.16}]},CAX:{dia:26,meta:80000,rows:[{n:"Ednalva",R:94230.17},{n:"Tarcila",R:61417.58},{n:"Raphaela",R:51463.54},{n:"Lopes",R:41446.76},{n:"Carlos Henrique",R:12789.34},{n:"Wellington",R:75.00},{n:"Kamilla",R:56.89}]}};
 
 var VEND_EXCLUIDOS=/^Comercial/i;
 var VEND_EXCLUIDOS_EXATOS=["Lilian","LILIAN","Alci Travassos"];
@@ -635,6 +639,254 @@ function buildTabVendedores(){
   return div;
 }
 
+
+var PARCIAL_2603={"CAM":{"forn":[{"n":"INCENOR","R":104739.71},{"n":"DO MESTRE","R":38888.51},{"n":"WEBER QUARTZOLIT","R":22940.92},{"n":"ELIZABETH","R":21825.54},{"n":"ARIELLE","R":17508.18},{"n":"MEGAÓ","R":16604.13},{"n":"IQUINE","R":15226.15},{"n":"TECNOGRES","R":14589.61},{"n":"INCESA","R":11775.47},{"n":"BRASILIT","R":11733.88},{"n":"REALLE","R":11048.31},{"n":"POINTER","R":10273.75},{"n":"ROCA","R":10135.12},{"n":"QUALITY","R":8676.57},{"n":"GHEL'PLUS","R":4495.1},{"n":"FORTLEV","R":4205.27},{"n":"NORCOLA","R":3722.42},{"n":"CARMELO FIOR","R":3650.35},{"n":"ATLAS","R":3418.22},{"n":"ANAUGER","R":3369.86},{"n":"NITROLUX","R":3034.86},{"n":"MEC-TRONIC","R":2810.95},{"n":"GRANPLAST","R":2589.68},{"n":"Perfilplast Industria e Comerc","R":2366.24},{"n":"VEDACIT","R":2359.38},{"n":"METAIS LEAO","R":2334.61},{"n":"FERTAK COMERCIO E IMPORTAÇÃO","R":2276.65},{"n":"LORENZETTI","R":2258.9},{"n":"CORTAG","R":1784.51},{"n":"MADELAR","R":1775.53},{"n":"PADO","R":1519.28},{"n":"VIQUA","R":1448.62},{"n":"LUCONI","R":1399.78},{"n":"INTECH MACHINE","R":1370.33},{"n":"SILVANA","R":1297.2},{"n":"LUZARTE","R":1273.68},{"n":"FORTLEV","R":1271.9},{"n":"MGM","R":1249.4},{"n":"CARMELO FIOR","R":1124.64},{"n":"BELLA PIA","R":1047.51},{"n":"BLUKIT","R":1030.85},{"n":"BLACK DECKER","R":992.9},{"n":"PRATIMIX","R":928.49},{"n":"COBRECOM","R":924.97},{"n":"AVANT","R":918.18},{"n":"HERC","R":839.14},{"n":"DOCOL METAIS","R":813.6},{"n":"MULT MIX IMPORTADORA","R":645.1},{"n":"LEDVANCE","R":633.43},{"n":"PLASTMAR IND E COM","R":615.5},{"n":"METALURGICA MOR S/A","R":608.7},{"n":"PULVITEC","R":569.27},{"n":"ADERE","R":563.75},{"n":"TRAMONTINA","R":516.67},{"n":"ORBI QUIMICA LTDA","R":476.2},{"n":"NORTON","R":447.53},{"n":"MYPA","R":431.8},{"n":"BRASFORMA","R":390.0},{"n":"COZIMAX","R":383.34},{"n":"LEGRAND","R":373.32},{"n":"PRATEFIX","R":359.14},{"n":"CENSI","R":351.2},{"n":"BOGNAR","R":334.5},{"n":"LGMAIS","R":324.8},{"n":"BEMFIXA","R":318.2},{"n":"PADRAO FORTE","R":238.06},{"n":"ULTRA CLEAN","R":235.1},{"n":"ALIANÇA","R":184.7},{"n":"ONDULINE","R":183.92},{"n":"TRAMONTINA","R":183.7},{"n":"BLACK ELEPHANT","R":177.9},{"n":"MEGAÓ","R":163.51},{"n":"TAF","R":160.5},{"n":"Momfort","R":156.6},{"n":"STARRETT INDUSTRIA E COMERCIO","R":150.9},{"n":"NITROLUX","R":150.4},{"n":"KALIPSO","R":140.47},{"n":"ULTRACLEAN","R":134.4},{"n":"BRASFORT","R":132.89},{"n":"Max-Giro","R":128.88},{"n":"GERDAU","R":120.85},{"n":"KRONA","R":119.39},{"n":"CERBRAS","R":104.26},{"n":"EXATRON","R":99.0},{"n":"MARLUVAS","R":96.9},{"n":"HIDRACOR","R":89.22},{"n":"ASTRA","R":89.11},{"n":"ARCELORMITTAL","R":78.7},{"n":"PINTSILK","R":59.9},{"n":"MARLUVAS","R":59.9},{"n":"ASTRA","R":49.8},{"n":"BOSCH","R":48.9},{"n":"LEDVANCE","R":41.7},{"n":"PADRAO FORTE","R":38.8},{"n":"VONDER","R":36.4},{"n":"ORBI QUIMICA LTDA","R":33.35},{"n":"J LOBATO","R":22.8},{"n":"EXTRALUZ","R":21.9},{"n":"ILUMI","R":17.0},{"n":"VONDER","R":16.7},{"n":"INCA","R":15.3},{"n":"LEDAN","R":14.1},{"n":"SECALUX","R":12.6},{"n":"TRAMONTINA NORDESTE","R":6.2}],"lp":[{"n":"Pisos & Revestimentos","R":196639.8},{"n":"Argamassas","R":57275.36},{"n":"Pintura","R":33002.99},{"n":"Portas e Esquadrias","R":14491.36},{"n":"Básicos","R":14338.39},{"n":"Louças","R":10930.03},{"n":"Complementos Hidráulicos","R":6283.22},{"n":"Hidráulica","R":6017.83},{"n":"Balcões","R":4997.43},{"n":"Impermeabilizante","R":4957.34},{"n":"Iluminação","R":4800.47},{"n":"Acessorios de Ferramentas","R":4254.84},{"n":"Elétrica","R":4219.14},{"n":"CABOS ELÉTRICOS","R":4198.4},{"n":"Acessorios de banheiro","R":3132.45},{"n":"Utilidades","R":2851.05},{"n":"TUBOS","R":2470.23},{"n":"Complementos de Pintura","R":2256.31},{"n":"Metais Sanitarios","R":2152.17},{"n":"MÓVEIS","R":2125.21},{"n":"Conexões","R":1670.52},{"n":"PLÁSTICOS SANITÁRIOS","R":1642.88},{"n":"Chuveiros","R":1492.38},{"n":"FORA DE LINHA","R":1391.84},{"n":"Ferramentas Manuais","R":1280.84},{"n":"Ferragens","R":1199.65},{"n":"Ferramentas","R":1095.19},{"n":"Limpeza","R":1066.9},{"n":"Jardinagem","R":785.3},{"n":"EPI","R":466.07},{"n":"Ferramentas Eletricas","R":465.4},{"n":"Diversos","R":75.0}]},"CAV":{"forn":[{"n":"INCENOR","R":66409.34},{"n":"BRASILIT","R":44773.08},{"n":"DO MESTRE","R":24018.49},{"n":"MEGAÓ","R":19758.34},{"n":"QUALITY","R":18634.33},{"n":"IQUINE","R":16371.59},{"n":"ELIZABETH","R":15586.67},{"n":"ROCA","R":14694.54},{"n":"REALLE","R":13548.68},{"n":"WEBER QUARTZOLIT","R":11844.59},{"n":"ARIELLE","R":9927.87},{"n":"FORTLEV","R":9413.4},{"n":"FORTLEV","R":6909.97},{"n":"NORCOLA","R":5349.23},{"n":"INCESA","R":4944.68},{"n":"Perfilplast Industria e Comerc","R":4760.05},{"n":"ANAUGER","R":4370.6},{"n":"ATLAS","R":4201.78},{"n":"MEC-TRONIC","R":3950.7},{"n":"POINTER","R":3891.91},{"n":"MADELAR","R":3646.72},{"n":"FERTAK COMERCIO E IMPORTAÇÃO","R":3366.78},{"n":"GRANPLAST","R":3281.12},{"n":"LORENZETTI","R":3163.05},{"n":"GHEL'PLUS","R":2870.9},{"n":"NITROLUX","R":2727.38},{"n":"TRAMONTINA","R":2544.9},{"n":"TECNOGRES","R":2353.16},{"n":"INTECH MACHINE","R":2321.0},{"n":"SILVANA","R":1995.12},{"n":"BLACK DECKER","R":1831.96},{"n":"METAIS LEAO","R":1830.57},{"n":"VIQUA","R":1692.62},{"n":"LEGRAND","R":1535.59},{"n":"LUZARTE","R":1481.63},{"n":"AVANT","R":1403.06},{"n":"LUCONI","R":1356.3},{"n":"PADO","R":1298.58},{"n":"MGM","R":1237.0},{"n":"METALURGICA MOR S/A","R":1136.51},{"n":"BEMFIXA","R":966.68},{"n":"LEDVANCE","R":938.31},{"n":"KRONA","R":909.48},{"n":"VEDACIT","R":867.01},{"n":"PULVITEC","R":838.12},{"n":"NORTON","R":824.0},{"n":"BRASFORMA","R":819.2},{"n":"PRATEFIX","R":793.2},{"n":"BLUKIT","R":767.84},{"n":"CORTAG","R":738.8},{"n":"HERC","R":720.66},{"n":"CENSI","R":711.13},{"n":"TAF","R":665.64},{"n":"PRECON","R":649.5},{"n":"BOTAFOGO","R":610.03},{"n":"CARMELO FIOR","R":548.96},{"n":"Momfort","R":535.6},{"n":"ALIANÇA","R":522.2},{"n":"NITROLUX","R":521.94},{"n":"MULT MIX IMPORTADORA","R":506.38},{"n":"DOCOL METAIS","R":476.5},{"n":"ORBI QUIMICA LTDA","R":473.7},{"n":"ADERE","R":471.9},{"n":"MARLUVAS","R":468.3},{"n":"ARCELORMITTAL","R":454.93},{"n":"PRATIMIX","R":445.24},{"n":"PLASTMAR IND E COM","R":438.1},{"n":"PADRAO FORTE","R":407.49},{"n":"BLUKIT","R":393.73},{"n":"BOGNAR","R":388.49},{"n":"EXATRON","R":307.3},{"n":"ONDULINE","R":284.4},{"n":"Max-Giro","R":274.3},{"n":"BELLA PIA","R":266.9},{"n":"COBRECOM","R":237.64},{"n":"METALOSA","R":233.7},{"n":"MEGAÓ","R":230.3},{"n":"SECALUX","R":209.65},{"n":"METALOSA","R":199.9},{"n":"LUZARTE","R":173.1},{"n":"CARMELO FIOR","R":171.34},{"n":"MYPA","R":163.7},{"n":"LUZARTE","R":155.9},{"n":"COZIMAX","R":149.9},{"n":"PADRAO FORTE","R":137.42},{"n":"KALIPSO","R":118.08},{"n":"ULTRA CLEAN","R":108.0},{"n":"VONDER","R":102.1},{"n":"MARLUVAS","R":96.9},{"n":"ULTRACLEAN","R":93.27},{"n":"STARRETT INDUSTRIA E COMERCIO","R":92.6},{"n":"COMFORT DOOR","R":87.95},{"n":"RHPE","R":85.9},{"n":"TRAMONTINA","R":61.9},{"n":"HIDRACOR","R":58.5},{"n":"EMPLAC","R":40.9},{"n":"STARRETT INDUSTRIA E COMERCIO","R":39.99},{"n":"TRAMONTINA ELETRIK S.A.","R":34.4},{"n":"LEDVANCE","R":25.3},{"n":"GERDAU","R":24.9},{"n":"PADOVA","R":23.9},{"n":"BRASFORT","R":22.9},{"n":"TRAMONTINA","R":21.9},{"n":"BLACK ELEPHANT","R":19.9},{"n":"ASTRA","R":17.8},{"n":"ILUMI","R":8.6},{"n":"INCA","R":6.2}],"lp":[{"n":"Pisos & Revestimentos","R":117382.6},{"n":"Básicos","R":57585.04},{"n":"Pintura","R":36734.53},{"n":"Argamassas","R":32163.35},{"n":"Portas e Esquadrias","R":27709.12},{"n":"Louças","R":15765.33},{"n":"Hidráulica","R":8669.84},{"n":"Elétrica","R":7806.95},{"n":"Complementos Hidráulicos","R":6280.26},{"n":"Iluminação","R":5615.99},{"n":"CABOS ELÉTRICOS","R":5586.87},{"n":"TUBOS","R":5201.28},{"n":"Acessorios de Ferramentas","R":5128.78},{"n":"Utilidades","R":4678.79},{"n":"MÓVEIS","R":4546.1},{"n":"Impermeabilizante","R":3704.64},{"n":"Complementos de Pintura","R":3253.86},{"n":"Acessorios de banheiro","R":2993.79},{"n":"Ferragens","R":2857.41},{"n":"Balcões","R":2789.72},{"n":"Chuveiros","R":1990.38},{"n":"Conexões","R":1921.5},{"n":"PLÁSTICOS SANITÁRIOS","R":1608.91},{"n":"Metais Sanitarios","R":1571.88},{"n":"Ferramentas Manuais","R":1559.88},{"n":"Limpeza","R":950.39},{"n":"EPI","R":756.08},{"n":"ELETRINHOS","R":749.59},{"n":"Ferramentas Eletricas","R":719.78},{"n":"Ferramentas","R":566.54},{"n":"Jardinagem","R":461.2},{"n":"FORA DE LINHA","R":216.4},{"n":"Diversos","R":167.4}]},"CAX":{"forn":[{"n":"INCENOR","R":55987.41},{"n":"IQUINE","R":33366.32},{"n":"ELIZABETH","R":25858.65},{"n":"DO MESTRE","R":22513.84},{"n":"INCESA","R":21354.19},{"n":"MEGAÓ","R":14286.09},{"n":"WEBER QUARTZOLIT","R":13484.09},{"n":"ARIELLE","R":8171.09},{"n":"ROCA","R":6260.77},{"n":"POINTER","R":5785.36},{"n":"ATLAS","R":5337.9},{"n":"BRASILIT","R":4981.94},{"n":"NORCOLA","R":4873.52},{"n":"TECNOGRES","R":4612.24},{"n":"QUALITY","R":4591.8},{"n":"FORTLEV","R":3935.79},{"n":"GRANPLAST","R":3679.85},{"n":"MEC-TRONIC","R":3484.51},{"n":"REALLE","R":3322.58},{"n":"FERTAK COMERCIO E IMPORTAÇÃO","R":3119.9},{"n":"NITROLUX","R":3097.95},{"n":"LORENZETTI","R":2565.74},{"n":"METAIS LEAO","R":2414.09},{"n":"FORTLEV","R":2247.6},{"n":"BLUKIT","R":1684.3},{"n":"Perfilplast Industria e Comerc","R":1604.37},{"n":"PADO","R":1474.7},{"n":"GHEL'PLUS","R":1470.0},{"n":"LEDVANCE","R":1461.09},{"n":"MADELAR","R":1418.94},{"n":"VEDACIT","R":1417.14},{"n":"INTECH MACHINE","R":1378.9},{"n":"METALOSA","R":1279.6},{"n":"LEGRAND","R":1275.2},{"n":"BLACK DECKER","R":1271.4},{"n":"MGM","R":1238.9},{"n":"SILVANA","R":1216.53},{"n":"MULT MIX IMPORTADORA","R":1158.02},{"n":"LUCONI","R":1143.7},{"n":"VIQUA","R":1034.8},{"n":"METALOSA","R":950.13},{"n":"CORTAG","R":875.56},{"n":"PULVITEC","R":845.6},{"n":"DOCOL METAIS","R":804.09},{"n":"LUZARTE","R":767.55},{"n":"PRATEFIX","R":756.8},{"n":"NORTON","R":739.35},{"n":"HERC","R":738.07},{"n":"BEMFIXA","R":719.7},{"n":"ADERE","R":627.38},{"n":"ANAUGER","R":614.4},{"n":"METALURGICA MOR S/A","R":583.2},{"n":"MEGAÓ","R":559.3},{"n":"EXATRON","R":539.5},{"n":"TRAMONTINA","R":467.5},{"n":"BLUKIT","R":462.2},{"n":"BELLA PIA","R":441.9},{"n":"Momfort","R":424.83},{"n":"PADRAO FORTE","R":419.56},{"n":"ALIANÇA","R":398.4},{"n":"ORBI QUIMICA LTDA","R":359.7},{"n":"MARLUVAS","R":350.6},{"n":"CENSI","R":327.31},{"n":"MARLUVAS","R":290.7},{"n":"PLASTMAR IND E COM","R":281.9},{"n":"KALIPSO","R":275.99},{"n":"BOGNAR","R":246.7},{"n":"NITROLUX","R":203.56},{"n":"SECALUX","R":187.8},{"n":"ULTRA CLEAN","R":177.2},{"n":"Max-Giro","R":176.4},{"n":"BRASFORMA","R":162.9},{"n":"PRATIMIX","R":153.5},{"n":"TAF","R":147.6},{"n":"BLACK ELEPHANT","R":119.4},{"n":"OUROLUX","R":96.4},{"n":"ULTRACLEAN","R":95.5},{"n":"STARRETT INDUSTRIA E COMERCIO","R":79.0},{"n":"HIDRACOR","R":78.0},{"n":"LUZARTE","R":74.9},{"n":"PADRAO FORTE","R":73.6},{"n":"LEDVANCE","R":56.3},{"n":"STARRETT INDUSTRIA E COMERCIO","R":50.2},{"n":"ORBI QUIMICA LTDA","R":42.0},{"n":"COMFORT DOOR","R":29.9}],"lp":[{"n":"Pisos & Revestimentos","R":125091.52},{"n":"Pintura","R":48839.7},{"n":"Argamassas","R":31283.97},{"n":"Básicos","R":9633.69},{"n":"Portas e Esquadrias","R":9491.84},{"n":"Louças","R":6562.89},{"n":"Elétrica","R":6458.42},{"n":"Complementos Hidráulicos","R":5868.85},{"n":"Impermeabilizante","R":4994.44},{"n":"Iluminação","R":4915.3},{"n":"CABOS ELÉTRICOS","R":4873.52},{"n":"Acessorios de Ferramentas","R":4732.25},{"n":"Complementos de Pintura","R":4321.55},{"n":"Hidráulica","R":3815.7},{"n":"Ferramentas Manuais","R":3484.32},{"n":"Utilidades","R":2584.0},{"n":"MÓVEIS","R":2463.2},{"n":"Metais Sanitarios","R":2279.18},{"n":"Chuveiros","R":2137.32},{"n":"Acessorios de banheiro","R":2134.0},{"n":"Conexões","R":1902.71},{"n":"TUBOS","R":1782.1},{"n":"Balcões","R":1777.4},{"n":"Ferragens","R":1713.6},{"n":"PLÁSTICOS SANITÁRIOS","R":1136.44},{"n":"EPI","R":975.09},{"n":"Limpeza","R":877.89},{"n":"ELETRINHOS","R":479.8},{"n":"Ferramentas","R":389.6},{"n":"Jardinagem","R":284.4},{"n":"FORA DE LINHA","R":255.3},{"n":"Diversos","R":192.9}]},"SLM":{"forn":[{"n":"INCENOR","R":103131.74},{"n":"BRASILIT","R":44769.23},{"n":"DO MESTRE","R":44515.4},{"n":"ELIZABETH","R":35672.31},{"n":"IQUINE","R":32127.13},{"n":"MEGAÓ","R":27178.56},{"n":"ROCA","R":18879.59},{"n":"QUALITY","R":16400.39},{"n":"TECNOGRES","R":15691.22},{"n":"FORTLEV","R":12890.56},{"n":"ANAUGER","R":11725.3},{"n":"WEBER QUARTZOLIT","R":11607.46},{"n":"NITROLUX","R":9001.88},{"n":"ATLAS","R":8769.66},{"n":"NORCOLA","R":8694.37},{"n":"LORENZETTI","R":7527.97},{"n":"MEC-TRONIC","R":6937.2},{"n":"POINTER","R":6732.67},{"n":"ARIELLE","R":6420.28},{"n":"GRANPLAST","R":6246.32},{"n":"METAIS LEAO","R":6204.89},{"n":"REALLE","R":6147.46},{"n":"FORTLEV","R":5845.35},{"n":"FERTAK COMERCIO E IMPORTAÇÃO","R":5810.41},{"n":"GHEL'PLUS","R":5020.4},{"n":"INTECH MACHINE","R":4651.33},{"n":"BLACK DECKER","R":4413.34},{"n":"Perfilplast Industria e Comerc","R":3879.69},{"n":"PADO","R":3732.31},{"n":"MADELAR","R":3434.06},{"n":"VEDACIT","R":3128.03},{"n":"VIQUA","R":2988.88},{"n":"BLUKIT","R":2700.32},{"n":"SILVANA","R":2649.34},{"n":"LEGRAND","R":2596.89},{"n":"TRAMONTINA","R":2499.43},{"n":"LUZARTE","R":2417.4},{"n":"MULT MIX IMPORTADORA","R":2386.14},{"n":"HERC","R":2336.41},{"n":"LUCONI","R":2179.24},{"n":"INCESA","R":1901.1},{"n":"PULVITEC","R":1897.46},{"n":"LEDVANCE","R":1852.04},{"n":"DOCOL METAIS","R":1824.02},{"n":"PRATEFIX","R":1561.58},{"n":"PLASTMAR IND E COM","R":1377.6},{"n":"PAMESA","R":1297.53},{"n":"BRASFORMA","R":1293.4},{"n":"Momfort","R":1213.38},{"n":"NITROLUX","R":1209.16},{"n":"BLUKIT","R":1174.1},{"n":"AVANT","R":1157.0},{"n":"NORTON","R":1141.28},{"n":"CORTAG","R":1122.23},{"n":"MGM","R":1087.9},{"n":"BOGNAR","R":1078.95},{"n":"METALURGICA MOR S/A","R":993.3},{"n":"ALIANÇA","R":906.7},{"n":"FRANKLIN","R":902.8},{"n":"BEMFIXA","R":897.47},{"n":"ADERE","R":874.07},{"n":"COBRECOM","R":830.97},{"n":"BELLA PIA","R":802.73},{"n":"BOSCH","R":758.6},{"n":"STARRETT INDUSTRIA E COMERCIO","R":656.44},{"n":"PADRAO FORTE","R":641.39},{"n":"METALOSA","R":639.8},{"n":"KRONA","R":614.35},{"n":"METALOSA","R":589.7},{"n":"CENSI","R":582.7},{"n":"EXATRON","R":541.5},{"n":"MEGAÓ","R":525.41},{"n":"TAF","R":503.29},{"n":"ORBI QUIMICA LTDA","R":500.0},{"n":"PADRAO FORTE","R":485.5},{"n":"MARLUVAS","R":484.5},{"n":"FRANKE","R":464.8},{"n":"TRAMONTINA NORDESTE","R":398.0},{"n":"COZIMAX","R":385.7},{"n":"PRATIMIX","R":378.2},{"n":"MARLUVAS","R":377.4},{"n":"MYPA","R":359.94},{"n":"TRAMONTINA","R":358.2},{"n":"ULTRA CLEAN","R":343.5},{"n":"LGMAIS","R":326.64},{"n":"KALIPSO","R":324.9},{"n":"HIDRACOR","R":319.8},{"n":"SECALUX","R":294.7},{"n":"ULTRACLEAN","R":271.3},{"n":"ARCELORMITTAL","R":250.9},{"n":"GERDAU","R":237.1},{"n":"Max-Giro","R":222.33},{"n":"TOP MIX","R":139.0},{"n":"ASTRA","R":128.9},{"n":"PINTSILK","R":109.0},{"n":"ILUMI","R":96.9},{"n":"RHPE","R":85.9},{"n":"METALURGICA MOR S/A","R":84.9},{"n":"LUZARTE","R":74.9},{"n":"PRECON","R":71.7},{"n":"VONDER","R":61.4},{"n":"RANCAN","R":59.9},{"n":"VONDER","R":52.1},{"n":"COMFORT DOOR","R":49.8},{"n":"LEDVANCE","R":48.7},{"n":"PADOVA","R":47.8},{"n":"BRASFORT","R":42.9},{"n":"STARRETT INDUSTRIA E COMERCIO","R":39.99},{"n":"BLACK ELEPHANT","R":39.8},{"n":"RESISWAL","R":38.9},{"n":"NOVA FIXACAO","R":30.6},{"n":"EXTRALUX","R":28.6},{"n":"INJEPLAST","R":16.0},{"n":"EXTRALUZ","R":13.9},{"n":"TRAMONTINA","R":11.99},{"n":"ASTRA","R":9.9},{"n":"INCA","R":8.8},{"n":"EMPLAC","R":6.5},{"n":"OVERTIME","R":5.9}],"lp":[{"n":"Pisos & Revestimentos","R":176994.32},{"n":"Pintura","R":61160.88},{"n":"Básicos","R":54894.76},{"n":"Argamassas","R":49436.21},{"n":"Portas e Esquadrias","R":25182.7},{"n":"Hidráulica","R":22115.66},{"n":"Louças","R":18741.14},{"n":"Iluminação","R":13328.48},{"n":"Elétrica","R":13194.75},{"n":"Complementos Hidráulicos","R":11388.9},{"n":"CABOS ELÉTRICOS","R":9525.34},{"n":"Acessorios de Ferramentas","R":9038.24},{"n":"Impermeabilizante","R":8233.03},{"n":"Acessorios de banheiro","R":7802.59},{"n":"Metais Sanitarios","R":7662.3},{"n":"Utilidades","R":6829.9},{"n":"TUBOS","R":6359.46},{"n":"Balcões","R":5787.53},{"n":"Ferragens","R":5335.89},{"n":"Conexões","R":5264.63},{"n":"Complementos de Pintura","R":5247.65},{"n":"MÓVEIS","R":5148.91},{"n":"PLÁSTICOS SANITÁRIOS","R":4829.44},{"n":"Chuveiros","R":4709.4},{"n":"Ferramentas Manuais","R":4173.12},{"n":"Ferramentas Eletricas","R":2262.19},{"n":"ELETRINHOS","R":1800.0},{"n":"Limpeza","R":1498.64},{"n":"Jardinagem","R":1467.4},{"n":"EPI","R":1266.1},{"n":"FORA DE LINHA","R":865.69},{"n":"Ferramentas","R":852.51},{"n":"Diversos","R":180.85}]}};
+
+
+function buildVendBlock(st,rows,pace,meta,totDays,elDays,diaRef,clr){
+  var div=h("div",{});
+  var blockDiv=div;
+  var CLR={CAM:"#818cf8",CAV:"#34d399",SLM:"#f472b6",CAX:"#fb923c"};
+  var PAL=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f74f7e","#f7c94f","#22d3ee","#a3e635","#f43f5e","#fbbf24"];
+  var totalR=rows.reduce(function(s,r){return s+r.R;},0);
+  // Ranking bar
+  var rankCard=h("div",{className:"card",style:{marginBottom:"12px",padding:"14px 16px"}});
+  rankCard.appendChild(h("div",{style:{fontSize:"10px",fontWeight:"700",color:"#8b9dc3",
+    textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px"}},["🏆 Ranking — Faturamento Acumulado"]));
+  rows.forEach(function(row,i){
+    var pct=totalR>0?row.R/totalR:0;
+    var metaPct=meta>0?row.R/meta:0;
+    var sem=metaPct>=pace?"#4fbf8e":metaPct>=(pace-0.15)?"#f7c94f":"#f74f7e";
+    var rrow=h("div",{style:{marginBottom:"10px"}});
+    var lbl=h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"3px"}});
+    lbl.appendChild(h("span",{style:{fontSize:"12px",fontWeight:"700",color:CLR[st]}},[(i+1)+"º "+row.n]));
+    var vals=h("span",{style:{fontSize:"12px",color:"#e8eaf0",fontWeight:"600"}});
+    vals.appendChild(h("span",{style:{marginRight:"10px"}},["R$ "+row.R.toLocaleString("pt-BR",{minimumFractionDigits:2})]));
+    vals.appendChild(h("span",{style:{color:sem}},[(metaPct*100).toFixed(1)+"%"]));
+    lbl.appendChild(vals);
+    rrow.appendChild(lbl);
+    // Progress bar
+    var barBg=h("div",{style:{background:"#2d3550",borderRadius:"4px",height:"8px",width:"100%",position:"relative"}});
+    var barFill=h("div",{style:{background:sem,borderRadius:"4px",height:"8px",
+      width:Math.min(100,metaPct*100).toFixed(1)+"%",transition:"width .3s"}});
+    // Pace marker
+    var marker=h("div",{style:{position:"absolute",top:"-2px",left:(pace*100).toFixed(1)+"%",
+      width:"2px",height:"12px",background:"#8b9dc3",borderRadius:"1px"}});
+    barBg.appendChild(barFill);
+    barBg.appendChild(marker);
+    rrow.appendChild(barBg);
+    var sub=h("div",{style:{display:"flex",justifyContent:"space-between",marginTop:"2px",flexWrap:"wrap",gap:"4px"}});
+    var proj=pace>0?row.R/pace:0;
+    var falta=Math.max(0,meta-row.R);
+    var diasRest=totDays-elDays;
+    var medNec=diasRest>0?falta/diasRest:0;
+    sub.appendChild(h("span",{style:{fontSize:"10px",color:"#8b9dc3"}},["Projeção: R$ "+Math.round(proj).toLocaleString("pt-BR")]));
+    sub.appendChild(h("span",{style:{fontSize:"10px",color:"#8b9dc3"}},["Falta: R$ "+Math.round(falta).toLocaleString("pt-BR")]));
+    if(medNec>0)sub.appendChild(h("span",{style:{fontSize:"10px",color:"#f7c94f"}},["Méd. nec.: R$ "+Math.round(medNec).toLocaleString("pt-BR")+"/dia"]));
+    rrow.appendChild(sub);
+    rankCard.appendChild(rrow);
+  });
+  // Pace legend
+  var diasRestTotal=totDays-elDays;
+  var medNecMeta=diasRestTotal>0?(meta-0)/totDays:0;
+  var leg=h("div",{style:{marginTop:"10px",borderTop:"1px solid #2d3550",paddingTop:"10px"}});
+  var legRow1=h("div",{style:{display:"flex",gap:"16px",flexWrap:"wrap",marginBottom:"6px"}});
+  legRow1.appendChild(h("span",{style:{fontSize:"11px",fontWeight:"700",color:"#8b9dc3"}},["│ Pace atual: "+(pace*100).toFixed(1)+"%  ("+elDays+" de "+totDays+" dias úteis)"]));
+  legRow1.appendChild(h("span",{style:{fontSize:"11px",color:"#f7c94f"}},["Méd. necessária p/ meta: R$ "+Math.round(meta/totDays).toLocaleString("pt-BR")+"/dia útil"]));
+  leg.appendChild(legRow1);
+  var legRow2=h("div",{style:{display:"flex",gap:"14px",flexWrap:"wrap"}});
+  legRow2.appendChild(h("span",{style:{fontSize:"10px",color:"#4fbf8e"}},["▲ Acima do pace"]));
+  legRow2.appendChild(h("span",{style:{fontSize:"10px",color:"#f7c94f"}},["► Até 15% abaixo"]));
+  legRow2.appendChild(h("span",{style:{fontSize:"10px",color:"#f74f7e"}},["▼ Crítico"]));
+  leg.appendChild(legRow2);
+  rankCard.appendChild(leg);
+  blockDiv.appendChild(rankCard);
+  return blockDiv;
+}
+
+
+function buildTabParcial(){
+  var div=h("div",{});
+  var STORES=["CAM","CAV","SLM","CAX"];
+  var CLR={CAM:"#818cf8",CAV:"#34d399",SLM:"#f472b6",CAX:"#fb923c"};
+  if(!S.parcialStore)S.parcialStore="CAM";
+  if(!S.parcialMode)S.parcialMode="vend";
+  var modeRow=h("div",{style:{display:"flex",gap:"8px",marginBottom:"10px",flexWrap:"wrap"}});
+  [{k:"vend",l:"👥 Vendedores"},{k:"forn",l:"🏆 Fornecedores"},{k:"lp",l:"🧩 Mix Produtos"}].forEach(function(m){
+    var active=S.parcialMode===m.k;
+    modeRow.appendChild(h("button",{
+      className:"period-mode-btn"+(active?" active":""),
+      style:{background:active?"#4f8ef7":"transparent",color:active?"#fff":"#4f8ef7",
+              border:"1.5px solid #4f8ef7",borderRadius:"8px",padding:"5px 16px",
+              fontSize:"12px",fontWeight:"700",cursor:"pointer"},
+      onClick:function(){update(function(){S.parcialMode=m.k;});}
+    },[m.l]));
+  });
+  div.appendChild(modeRow);
+  var storeRow=h("div",{style:{display:"flex",gap:"8px",marginBottom:"14px",flexWrap:"wrap"}});
+  // Total button first
+  [{k:"TOTAL",l:"Rede",c:"#8b9dc3"}].concat(STORES.map(function(s){return{k:s,l:s,c:CLR[s]};})).forEach(function(opt){
+    var active=S.parcialStore===opt.k;
+    storeRow.appendChild(h("button",{
+      className:"period-mode-btn"+(active?" active":""),
+      style:{background:active?opt.c:"transparent",color:active?"#fff":opt.c,
+              border:"1.5px solid "+opt.c,borderRadius:"8px",padding:"5px 14px",
+              fontSize:"12px",fontWeight:"600",cursor:"pointer"},
+      onClick:function(){update(function(){S.parcialStore=opt.k;});}
+    },[opt.l]));
+  });
+  div.appendChild(storeRow);
+  var st=S.parcialStore;
+  var mode=S.parcialMode;
+  var clr=st==="TOTAL"?"#8b9dc3":CLR[st];
+  var stData;
+  if(mode==="vend"){
+    // Render full vendedores logic (same as aba Vendedores)
+    var now_p=new Date();
+    var yr_p=now_p.getFullYear(),mo_p=now_p.getMonth();
+    var firstDay_p=new Date(yr_p,mo_p,1),lastDay_p=new Date(yr_p,mo_p+1,0);
+    function wDays_p(from,to,noSun){var n=0,d=new Date(from);while(d<=to){if(!noSun||d.getDay()!==0)n++;d.setDate(d.getDate()+1);}return n;}
+    var MES_P=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    var monthLbl_p=MES_P[mo_p]+"/"+String(yr_p).slice(2);
+
+    if(st==="TOTAL"){
+      // Unified ranking — all vendors across all stores, tagged with their store
+      var CLR_P={CAM:"#818cf8",CAV:"#34d399",SLM:"#f472b6",CAX:"#fb923c"};
+      var PAL_P=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f74f7e","#f7c94f","#22d3ee","#a3e635","#f43f5e","#fbbf24"];
+      var allVend=[];
+      STORES.forEach(function(stv){
+        var stDataV=DEFAULT_VEND[stv]||{dia:0,meta:80000,rows:[]};
+        stDataV.rows.filter(function(r){return!VEND_EXCLUIDOS.test(r.n)&&VEND_EXCLUIDOS_EXATOS.indexOf(r.n)<0;})
+          .forEach(function(r){allVend.push({n:r.n,R:r.R,loja:stv});});
+      });
+      allVend.sort(function(a,b){return b.R-a.R;});
+      var totalVend=allVend.reduce(function(s,r){return s+r.R;},0);
+      // Use pace from store with most days (conservative)
+      var paceRef=0;
+      STORES.forEach(function(stv){
+        var dV=DEFAULT_VEND[stv]||{dia:0};
+        var noSun_p=stv==="CAM";
+        var totS=Math.round(wDays_p(firstDay_p,lastDay_p,noSun_p)*(stv==="CAM"?1:6/7));
+        var elDateV=new Date(yr_p,mo_p,dV.dia||1);if(elDateV>lastDay_p)elDateV=lastDay_p;
+        var elS=Math.round(wDays_p(firstDay_p,elDateV,noSun_p)*(stv==="CAM"?1:6/7));
+        var pS=totS>0?elS/totS:0;
+        if(pS>paceRef)paceRef=pS;
+      });
+      var meta_ref=80000;
+      var rankCard=h("div",{className:"card",style:{padding:"14px 16px"}});
+      rankCard.appendChild(h("div",{style:{fontSize:"10px",fontWeight:"700",color:"#8b9dc3",
+        textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px"}},["🏆 Ranking Rede — Todos os Vendedores"]));
+      allVend.forEach(function(row,i){
+        var metaPct=meta_ref>0?row.R/meta_ref:0;
+        var sem=metaPct>=paceRef?"#4fbf8e":metaPct>=(paceRef-0.15)?"#f7c94f":"#f74f7e";
+        var rrow=h("div",{style:{marginBottom:"10px"}});
+        var lblRow=h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"3px",alignItems:"center"}});
+        var nameSpan=h("div",{style:{display:"flex",alignItems:"center",gap:"6px",overflow:"hidden"}});
+        nameSpan.appendChild(h("span",{style:{fontSize:"11px",fontWeight:"700",color:"#e8eaf0",
+          overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},[(i+1)+"º "+row.n]));
+        nameSpan.appendChild(h("span",{style:{fontSize:"9px",fontWeight:"700",color:CLR_P[row.loja],
+          background:CLR_P[row.loja]+"22",borderRadius:"3px",padding:"1px 5px",flexShrink:"0"}},[row.loja]));
+        lblRow.appendChild(nameSpan);
+        var vals=h("span",{style:{fontSize:"11px",color:"#e8eaf0",fontWeight:"600",flexShrink:"0",marginLeft:"8px"}});
+        vals.appendChild(h("span",{style:{marginRight:"10px"}},["R$ "+row.R.toLocaleString("pt-BR",{minimumFractionDigits:2})]));
+        vals.appendChild(h("span",{style:{color:sem}},[(metaPct*100).toFixed(1)+"%"]));
+        lblRow.appendChild(vals);
+        rrow.appendChild(lblRow);
+        var barBg=h("div",{style:{background:"#2d3550",borderRadius:"4px",height:"8px",width:"100%",position:"relative"}});
+        var barFill=h("div",{style:{background:CLR_P[row.loja],borderRadius:"4px",height:"8px",
+          width:Math.min(100,metaPct*100).toFixed(1)+"%",transition:"width .3s"}});
+        var marker=h("div",{style:{position:"absolute",top:"-2px",left:(paceRef*100).toFixed(1)+"%",
+          width:"2px",height:"12px",background:"#8b9dc3",borderRadius:"1px"}});
+        barBg.appendChild(barFill);barBg.appendChild(marker);
+        rrow.appendChild(barBg);
+        var subRow=h("div",{style:{display:"flex",justifyContent:"space-between",marginTop:"2px",flexWrap:"wrap",gap:"4px"}});
+        var proj=paceRef>0?row.R/paceRef:0;
+        var falta=Math.max(0,meta_ref-row.R);
+        var diasRest_r=Math.round(wDays_p(firstDay_p,lastDay_p,row.loja==="CAM")*(row.loja==="CAM"?1:6/7))-Math.round(wDays_p(firstDay_p,new Date(yr_p,mo_p,(DEFAULT_VEND[row.loja]||{dia:1}).dia||1),row.loja==="CAM")*(row.loja==="CAM"?1:6/7));
+        var medNec_r=diasRest_r>0?falta/diasRest_r:0;
+        subRow.appendChild(h("span",{style:{fontSize:"10px",color:"#8b9dc3"}},["Projeção: R$ "+Math.round(proj).toLocaleString("pt-BR")]));
+        subRow.appendChild(h("span",{style:{fontSize:"10px",color:"#8b9dc3"}},["Falta: R$ "+Math.round(falta).toLocaleString("pt-BR")]));
+        if(medNec_r>0)subRow.appendChild(h("span",{style:{fontSize:"10px",color:"#f7c94f"}},["Méd. nec.: R$ "+Math.round(medNec_r).toLocaleString("pt-BR")+"/dia"]));
+        rrow.appendChild(subRow);
+        rankCard.appendChild(rrow);
+      });
+      rankCard.appendChild(h("div",{style:{marginTop:"8px",fontSize:"10px",color:"#8b9dc3",borderTop:"1px solid #2d3550",paddingTop:"8px"}},[
+        "│ Pace ref.: "+(paceRef*100).toFixed(1)+"% · Meta individual: R$ "+meta_ref.toLocaleString("pt-BR")
+      ]));
+      div.appendChild(rankCard);
+    } else {
+      var stDataV=DEFAULT_VEND[st]||{dia:0,meta:80000,rows:[]};
+      if(!stDataV.rows.length){
+        div.appendChild(h("div",{className:"card",style:{color:"#8b9dc3",textAlign:"center",padding:"40px"}},["Dados de "+st+" ainda não carregados."]));
+        return div;
+      }
+      var noSun_p=st==="CAM";
+      var totDaysStoreP=wDays_p(firstDay_p,lastDay_p,noSun_p);
+      var elDateP=new Date(yr_p,mo_p,stDataV.dia||1);
+      if(elDateP>lastDay_p)elDateP=lastDay_p;
+      var elDaysStoreP=wDays_p(firstDay_p,elDateP,noSun_p);
+      var fatorP=st==="CAM"?1:(6/7);
+      var totDaysP=Math.round(totDaysStoreP*fatorP);
+      var elDaysP=Math.round(elDaysStoreP*fatorP);
+      var paceP=totDaysP>0?elDaysP/totDaysP:0;
+      var metaP=stDataV.meta||80000;
+      var rowsP=stDataV.rows.filter(function(r){return!VEND_EXCLUIDOS.test(r.n)&&VEND_EXCLUIDOS_EXATOS.indexOf(r.n)<0;}).slice().sort(function(a,b){return b.R-a.R;});
+      div.appendChild(h("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"14px",flexWrap:"wrap"}},[
+        h("span",{style:{fontSize:"15px",fontWeight:"800",color:CLR[st]}},["👥 Vendedores "+st+" — "+monthLbl_p]),
+        h("span",{style:{background:"#1a2540",border:"1px solid #2d3a52",borderRadius:"6px",padding:"3px 10px",fontSize:"11px",color:"#8b9dc3"}},["⏱ Dados até dia "+stDataV.dia+" · "+elDaysP+" de "+totDaysP+" dias úteis"]),
+        h("span",{style:{background:"#1a2540",border:"1px solid #2d3a52",borderRadius:"6px",padding:"3px 10px",fontSize:"11px",color:"#8b9dc3"}},["Meta individual: R$ "+metaP.toLocaleString("pt-BR")])
+      ]));
+      div.appendChild(buildVendBlock(st,rowsP,paceP,metaP,totDaysP,elDaysP,stDataV.dia,CLR[st]));
+    }
+    return div;
+  } else if(st==="TOTAL"){
+    // Aggregate all stores: merge by name
+    var merged={};
+    STORES.forEach(function(s){
+      (PARCIAL_2603[s]&&PARCIAL_2603[s][mode]?PARCIAL_2603[s][mode]:[]).forEach(function(d){
+        merged[d.n]=(merged[d.n]||0)+d.R;
+      });
+    });
+    stData=Object.entries(merged).map(function(e){return{n:e[0],R:e[1]};})
+      .sort(function(a,b){return b.R-a.R;});
+  } else {
+    stData=PARCIAL_2603[st]&&PARCIAL_2603[st][mode]?PARCIAL_2603[st][mode]:[];
+  }
+  var total=stData.reduce(function(a,d){return a+d.R;},0);
+  var modeLabel=mode==="vend"?"Vendedores":mode==="forn"?"Fornecedores":"Mix de Produtos";
+  var stLabel=st==="TOTAL"?"Rede":st;
+  div.appendChild(h("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"14px",flexWrap:"wrap"}},[ 
+    h("span",{style:{fontSize:"15px",fontWeight:"800",color:clr}},["📊 "+modeLabel+" — "+stLabel+" · Mar/26"]),
+    h("span",{style:{background:"#1a2540",border:"1px solid #2d3a52",borderRadius:"6px",
+      padding:"3px 10px",fontSize:"11px",color:"#8b9dc3"}},[
+      "01 a 26/03 · Total: R$ "+(total/1000).toFixed(0)+"k"
+    ])
+  ]));
+  var card=h("div",{className:"card",style:{padding:"14px 16px"}});
+  var PAL=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f74f7e","#f7c94f","#22d3ee","#a3e635","#f43f5e","#fbbf24"];
+  stData.forEach(function(row,i){
+    var pct=total>0?row.R/total:0;
+    var rrow=h("div",{style:{marginBottom:"10px"}});
+    var lbl=h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"3px"}});
+    lbl.appendChild(h("span",{style:{fontSize:"11px",fontWeight:"700",color:PAL[i%PAL.length],
+      overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:"55%"}},
+      [(i+1)+"º "+row.n]));
+    var vals=h("span",{style:{fontSize:"11px",color:"#e8eaf0",fontWeight:"600",flexShrink:"0"}});
+    vals.appendChild(h("span",{style:{marginRight:"10px"}},["R$ "+(row.R/1000).toFixed(1)+"k"]));
+    vals.appendChild(h("span",{style:{color:PAL[i%PAL.length]}},[(pct*100).toFixed(1)+"%"]));
+    lbl.appendChild(vals);
+    rrow.appendChild(lbl);
+    var barBg=h("div",{style:{background:"#2d3550",borderRadius:"4px",height:"6px",width:"100%"}});
+    var barFill=h("div",{style:{background:PAL[i%PAL.length],borderRadius:"4px",height:"6px",
+      width:(pct*100).toFixed(1)+"%",transition:"width .3s"}});
+    barBg.appendChild(barFill);
+    rrow.appendChild(barBg);
+    card.appendChild(rrow);
+  });
+  div.appendChild(card);
+  return div;
+}
+
 function buildApp(){
   var dates=allDates();
   var yrs=years();
@@ -684,7 +936,7 @@ function buildApp(){
 
   // Tab content
   if(S.tab===0)body.appendChild(buildTabMetas());
-  else if(S.tab===1)body.appendChild(buildTabVendedores());
+  else if(S.tab===1)body.appendChild(buildTabParcial());
   else if(S.tab===2)body.appendChild(buildTabResumo());
   else if(S.tab===3)body.appendChild(buildTabFat(fatF,lastFat,dates,yrs));
   else if(S.tab===4)body.appendChild(buildTabMix(lpF,lastLP));
@@ -915,55 +1167,59 @@ function buildTabFat(fatF,lastFat,dates,yrs){
     var multiMonth=fatF.length>1;
     var periodoFatLbl=multiMonth?(lbl(fatF[0].date)+" – "+lbl(lastFat.date)):(lastFat.date?lbl(lastFat.date):"");
     var fatTotR=fatF.reduce(function(a,d){return a+(d.Total&&d.Total.R?d.Total.R:0);},0);
-    var totYoy=yoyVar(S.fat,lastFat.date||"",function(d){return d.Total&&d.Total.R;});
-    var totEl=kpi("Total",fmtK(multiMonth?fatTotR:lastFat.Total&&lastFat.Total.R),periodoFatLbl,"#4f8ef7",multiMonth?null:lastFat.Total&&lastFat.Total.V,multiMonth?null:totYoy);
+
+    // Total KPI
+    var totTrend=null, totYoyV=null;
+    if(!multiMonth){
+      // 1 mês → MoM (V) + YoY
+      totTrend=lastFat.Total&&lastFat.Total.V;
+      totYoyV=yoyVar(S.fat,lastFat.date||"",function(d){return d.Total&&d.Total.R;});
+    } else {
+      // Multi-mês → YoY mesmo período
+      var fatMonths=fatF.map(function(d){return d.date.slice(5);});
+      var fatFirstYr=parseInt(fatF[0].date.slice(0,4))-1;
+      var fatPrevYrTot=S.fat.filter(function(d){return parseInt(d.date.slice(0,4))===fatFirstYr&&fatMonths.indexOf(d.date.slice(5))>=0;})
+        .reduce(function(a,d){return a+(d.Total&&d.Total.R?d.Total.R:0);},0);
+      totYoyV=fatPrevYrTot>0?(fatTotR-fatPrevYrTot)/fatPrevYrTot:null;
+    }
+    var totEl=kpi("Total",fmtK(multiMonth?fatTotR:lastFat.Total&&lastFat.Total.R),periodoFatLbl,"#4f8ef7",totTrend,totYoyV);
     kpiRow2.appendChild(totEl);
+
     S.aStores.forEach(function(s){
       var stR=multiMonth?fatF.reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0):(lastFat[s]&&lastFat[s].R?lastFat[s].R:0);
       if(stR>0){
-        var sy=multiMonth?null:yoyVar(S.fat,lastFat.date||"",function(d){return d[s]&&d[s].R;});
+        var stTrend=null, stYoy=null;
+        if(!multiMonth){
+          stTrend=lastFat[s]&&lastFat[s].V;
+          stYoy=yoyVar(S.fat,lastFat.date||"",function(d){return d[s]&&d[s].R;});
+        } else {
+          var fatMonths2=fatF.map(function(d){return d.date.slice(5);});
+          var fatFirstYr2=parseInt(fatF[0].date.slice(0,4))-1;
+          var stPrevYr=S.fat.filter(function(d){return parseInt(d.date.slice(0,4))===fatFirstYr2&&fatMonths2.indexOf(d.date.slice(5))>=0;})
+            .reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0);
+          stYoy=stPrevYr>0?(stR-stPrevYr)/stPrevYr:null;
+        }
         var sub=multiMonth?periodoFatLbl:("Margem "+pct(lastFat[s]&&lastFat[s].Mg));
-        kpiRow2.appendChild(kpi(s,fmtK(stR),sub,STORE_CLR[s],multiMonth?null:(lastFat[s]&&lastFat[s].V),sy));
+        kpiRow2.appendChild(kpi(s,fmtK(stR),sub,STORE_CLR[s],stTrend,stYoy));
       }
     });
     div.appendChild(kpiRow2);
     // Chart
-    var mbar=metricBar([{key:"R",label:"Faturamento",icon:"💰",color:"#4f8ef7"},{key:"M",label:"Margem %",icon:"📊",color:"#4fbf8e"},{key:"MK",label:"Markup %",icon:"📈",color:"#c97af7"},{key:"D",label:"R$/dia útil",icon:"📅",color:"#f7c94f"}],S.fatM,function(v){update(function(){S.fatM=v;});});
-    var chartDiv=h("div",{id:"chart-fat",className:"chart-wrap",style:{height:"260px"}});
-    div.appendChild(h("div",{className:"card"},[h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"14px",flexWrap:"wrap",gap:"10px"}},[h("div",{className:"card-title",style:{marginBottom:"0"}},["Faturamento por Loja"]),mbar]),chartDiv]));
     window._chartData=window._chartData||{};
-    var curFilter=activeFilter();
-    if(curFilter.mode==="year"){
-      var isR=S.fatM==="R"||S.fatM==="D";
-      var fmtTipBar=isR?fmtBR:function(v){return v!=null?v.toFixed(2)+"%":"—";};
-      var barData=fatF.map(function(d){
-        var r={name:lbl(d.date)};
-        S.aStores.forEach(function(s){
-          var v=null;
-          if(S.fatM==="R")v=d[s]&&d[s].R!=null?d[s].R:0;
-          else if(S.fatM==="D"){var wd=workDays(d.date,s);v=wd&&d[s]&&d[s].R?d[s].R/wd:0;}
-          else if(S.fatM==="M")v=d[s]&&d[s].Mg!=null?d[s].Mg*100:0;
-          else if(S.fatM==="MK")v=d[s]&&d[s].Mk!=null?d[s].Mk*100:0;
-          else v=d[s]&&d[s].V!=null?d[s].V*100:0;
-          r[s]=v;
-        });
-        return r;
-      });
-      window._chartData["fat"]={type:"stacked-bar",showTotal:S.fatM==="R",series:S.aStores.map(function(s){return{name:s,color:STORE_CLR[s],values:barData.map(function(d){return{x:d.name,y:d[s]||0};})};})};
-    } else {
-      var series=S.aStores.map(function(s){
-        return {name:s,color:STORE_CLR[s],values:fatF.map(function(d){
-          if(S.fatM==="R")return{x:lbl(d.date),y:d[s]&&d[s].R!=null?d[s].R:null};
-          if(S.fatM==="D"){var wd=workDays(d.date,s);return{x:lbl(d.date),y:wd&&d[s]&&d[s].R?d[s].R/wd:null};}
-          if(S.fatM==="M")return{x:lbl(d.date),y:d[s]&&d[s].Mg!=null?d[s].Mg*100:null};
-          if(S.fatM==="MK")return{x:lbl(d.date),y:d[s]&&d[s].Mk!=null?d[s].Mk*100:null};
-          return{x:lbl(d.date),y:d[s]&&d[s].V!=null?d[s].V*100:null};
-        })};
-      });
-      var fmtY=(S.fatM==="R"||S.fatM==="D")?function(v){return (v/1000).toFixed(0)+"k";}:function(v){return v!=null?v.toFixed(1)+"%":"";};
-      var fmtTip=(S.fatM==="R"||S.fatM==="D")?fmtBR:function(v){return v!=null?v.toFixed(2)+"%":"—";};
-      window._chartData["fat"]={type:"line",series:series,fmtY:fmtY,fmtTip:fmtTip,showMA3:true};
-    }
+
+    // ── Ranking horizontal (estilo Fornecedores) ──────────────────────────────
+    var fatRankData=S.aStores.map(function(s){
+      var R=fatF.reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0);
+      return{name:s,val:R,color:STORE_CLR[s]};
+    }).filter(function(d){return d.val>0;}).sort(function(a,b){return b.val-a.val;});
+    var fatRankH=Math.max(80,fatRankData.length*32+60);
+    div.appendChild(h("div",{className:"card"},[
+      h("div",{className:"card-title"},["Faturamento por Loja — "+periodoFatLbl]),
+      h("div",{id:"chart-fat-rank",className:"chart-wrap",style:{height:fatRankH+"px"}})
+    ]));
+    window._chartData["fat-rank"]={type:"bar-h",data:fatRankData,fmtTip:fmtBR};
+
+
   }
   return div;
 }
@@ -973,7 +1229,7 @@ function buildTabMix(lpF,lastLP){
   var div=h("div",{});
 
   // Store filter row
-  var storeOpts=[{key:null,label:"Todas",color:"#8b9dc3"}].concat(STORES.map(function(s){return{key:s,label:s,color:STORE_CLR[s]};}));
+  var storeOpts=[{key:null,label:"🌐 Rede",color:"#8b9dc3"}].concat(STORES.map(function(s){return{key:s,label:s,color:STORE_CLR[s]};}));
   var storeRow=h("div",{style:{display:"flex",gap:"8px",flexWrap:"wrap",marginBottom:"8px"}});
   storeOpts.forEach(function(opt){
     var active=S.mixStore===opt.key;
@@ -992,7 +1248,8 @@ function buildTabMix(lpF,lastLP){
   var srcData = S.mixStore ? applyFilter(S['lp'+S.mixStore]) : lpF;
   var srcAll  = S.mixStore ? S['lp'+S.mixStore] : S.lp;
   var srcLast = srcData.length ? srcData[srcData.length-1] : {};
-  var srcPrev = srcData.length>1 ? srcData[srcData.length-2] : {};
+  var _srcLastIdx = srcAll.findIndex(function(d){return d.date===(srcLast.date||"");});
+  var srcPrev = _srcLastIdx>0 ? srcAll[_srcLastIdx-1] : {};
 
   // Entity filter - all categories across all records of chosen source
   var catSet={};
@@ -1060,10 +1317,29 @@ function buildTabMix(lpF,lastLP){
     concEl.appendChild(h("div",{className:"kpi-sub"},["Top 5 cats / total"]));
     var kpiRow=h("div",{className:"kpi-row"});
     filteredEntry.slice(0,5).forEach(function(e,i){
-      var prev=srcPrev[e[0]]||0;
-      var mom=prev>0?(e[1]-prev)/prev:null;
-      var yoy=yoyVar(srcAll,srcLast.date||"",function(d){return d[e[0]]||null;});
-      kpiRow.appendChild(kpi((i+1)+"ª",e[0],fmtK(e[1]),PAL[i],mom,yoy));
+      var trendVal=null, yoyVal=null;
+      if(!multiLP){
+        // Mês único → MoM
+        var prev=srcPrev[e[0]]||0;
+        trendVal=prev>0?(e[1]-prev)/prev:null;
+        // + YoY: mesmo mês do ano anterior
+        var curDate=srcLast.date||"";
+        var prevYrDate=String(parseInt(curDate.slice(0,4))-1)+curDate.slice(4);
+        var prevYrEntry=srcAll.find(function(d){return d.date===prevYrDate;})||{};
+        var prevYrVal=prevYrEntry[e[0]]||0;
+        yoyVal=prevYrVal>0?(e[1]-prevYrVal)/prevYrVal:null;
+      } else {
+        // Multi-mês → YoY: mesmo período do ano anterior
+        var monthsInPeriod=lpF.map(function(d){return d.date.slice(5);});
+        var prevYrTotal=srcAll.filter(function(d){
+          var yr=parseInt(d.date.slice(0,4));
+          var m=d.date.slice(5);
+          var firstYr=parseInt(lpF[0].date.slice(0,4))-1;
+          return yr===firstYr&&monthsInPeriod.indexOf(m)>=0;
+        }).reduce(function(a,d){return a+(d[e[0]]||0);},0);
+        yoyVal=prevYrTotal>0?(e[1]-prevYrTotal)/prevYrTotal:null;
+      }
+      kpiRow.appendChild(kpi((i+1)+"ª",e[0],fmtK(e[1]),PAL[i],trendVal,yoyVal));
     });
     kpiRow.appendChild(concEl);
     kpiRow.appendChild(kpi("Período",lastLP.date?lbl(lastLP.date):"—","","#4f8ef7"));
@@ -1219,11 +1495,22 @@ function buildTabRank(rkF,lastRk){
         var prevYrTotal=S.rank.filter(function(d){return d.date.slice(0,4)===prevYr;})
           .reduce(function(acc,d){return acc+(d[e[0]]||0);},0);
         sy=prevYrTotal>0?(e[1]-prevYrTotal)/prevYrTotal:null;
+      } else if(rkF.length===1){
+        // Single month: YoY vs same month last year
+        sy=yoyVar(S.rank,lastRk.date||"",function(d){return d[e[0]]||null;});
+        // MoM: previous month in full dataset
+        var rkIdx=S.rank.findIndex(function(d){return d.date===(lastRk.date||"");});
+        var prevRkEntry=rkIdx>0?S.rank[rkIdx-1]:{};
+        var prevRkV=prevRkEntry[e[0]]||0;
+        momRk=prevRkV>0?(e[1]-prevRkV)/prevRkV:null;
       } else {
-        // MoM: mês anterior
-        var prevTotal=S.rank.slice(0,Math.max(0,S.rank.indexOf(rkF[0]))).slice(-rkF.length)
+        // Multi-mês → YoY: mesmo período do ano anterior
+        var rkMonths=rkF.map(function(d){return d.date.slice(5);});
+        var rkFirstYr=parseInt(rkF[0].date.slice(0,4))-1;
+        var rkPrevYr=S.rank.filter(function(d){return parseInt(d.date.slice(0,4))===rkFirstYr&&rkMonths.indexOf(d.date.slice(5))>=0;})
           .reduce(function(acc,d){return acc+(d[e[0]]||0);},0);
-        momRk=prevTotal>0?(e[1]-prevTotal)/prevTotal:null;
+        sy=rkPrevYr>0?(e[1]-rkPrevYr)/rkPrevYr:null;
+        momRk=null;
       }
       kpiRow.appendChild(kpi((i+1)+"º",e[0],fmtK(e[1]),PAL[i],momRk,sy));
     });
@@ -1276,15 +1563,30 @@ function buildTabPisos(pisF,lastPis,dates,yrs){
     window._chartData["pis-cmp-m"]={type:"grouped-bar",data:cmpM,keys:sortedPeriods().map(pLabel),colors:PCLR,fmtTip:function(v){return v.toFixed(0)+" m²";}};
   } else {
     var kpiRow=h("div",{className:"kpi-row"});
-    var prevPis=pisF.length>1?pisF[pisF.length-2]:{};
+    var _pisLastIdx=S.pis.findIndex(function(d){return d.date===(lastPis.date||"");});
+    var prevPis=_pisLastIdx>0?S.pis[_pisLastIdx-1]:{};
     var multiPis=pisF.length>1;
     var perioPisLbl=multiPis?(lbl(pisF[0].date)+" – "+lbl(lastPis.date)):(lastPis.date?lbl(lastPis.date):"");
     S.aPis.forEach(function(s){
       var pisR=multiPis?pisF.reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0):(lastPis[s]&&lastPis[s].R?lastPis[s].R:0);
       if(pisR>0){
-        var sy=multiPis?null:yoyVar(S.pis,lastPis.date||"",function(d){return d[s]&&d[s].R?d[s].R:null;});
-        var prevR=prevPis[s]&&prevPis[s].R?prevPis[s].R:0;
-        var mom=multiPis?null:(prevR>0?(lastPis[s].R-prevR)/prevR:null);
+        var mom=null, sy=null;
+        if(!multiPis){
+          // Mês único → MoM
+          var prevR=prevPis[s]&&prevPis[s].R?prevPis[s].R:0;
+          mom=prevR>0?(lastPis[s].R-prevR)/prevR:null;
+          // + YoY: mesmo mês ano anterior
+          var pisYrDate=String(parseInt((lastPis.date||"").slice(0,4))-1)+(lastPis.date||"").slice(4);
+          var pisYrEntry=S.pis.find(function(d){return d.date===pisYrDate;})||{};
+          sy=pisYrEntry[s]&&pisYrEntry[s].R&&lastPis[s]&&lastPis[s].R?(lastPis[s].R-(pisYrEntry[s].R))/pisYrEntry[s].R:null;
+        } else {
+          // Multi-mês → YoY: mesmo período do ano anterior
+          var pisMonths=pisF.map(function(d){return d.date.slice(5);});
+          var pisFirstYr=parseInt(pisF[0].date.slice(0,4))-1;
+          var pisPrevYr=S.pis.filter(function(d){return parseInt(d.date.slice(0,4))===pisFirstYr&&pisMonths.indexOf(d.date.slice(5))>=0;})
+            .reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0);
+          sy=pisPrevYr>0?(pisR-pisPrevYr)/pisPrevYr:null;
+        }
         var pisM2=multiPis?pisF.reduce(function(a,d){return a+(d[s]&&d[s].m2?d[s].m2:0);},0):(lastPis[s]&&lastPis[s].m2?lastPis[s].m2:0);
         var pisPreco=pisR&&pisM2>0?pisR/pisM2:null;
         var sub=(pisM2>0?pisM2.toLocaleString("pt-BR",{maximumFractionDigits:0})+" m²":"")+(pisPreco?" · R$ "+pisPreco.toFixed(0)+"/m²":"")+(multiPis?" ("+perioPisLbl+")":"");
@@ -1292,34 +1594,44 @@ function buildTabPisos(pisF,lastPis,dates,yrs){
       }
     });
     div.appendChild(kpiRow);
-    var mbar=metricBar([{key:"R",label:"Faturamento",icon:"💰",color:"#4f8ef7"},{key:"m2",label:"Volume m²",icon:"📐",color:"#4fbf8e"},{key:"pm2",label:"R$/m²",icon:"💎",color:"#f7c94f"}],S.pisM,function(v){update(function(){S.pisM=v;});});
-    var chartDiv=h("div",{id:"chart-pis",className:"chart-wrap",style:{height:"260px"}});
-    div.appendChild(h("div",{className:"card"},[h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"14px",flexWrap:"wrap",gap:"10px"}},[h("div",{className:"card-title",style:{marginBottom:"0"}},["Pisos & Revestimentos"]),mbar]),chartDiv]));
-    var series, fmtY, fmtTip;
-    if(S.pisM==="pm2"){
-      // Barras horizontais ranqueadas — preço médio do último mês disponível
-      var pm2Data=S.aPis.filter(function(s){return s!=="Outros";}).map(function(s){
-        var R=lastPis[s]&&lastPis[s].R?lastPis[s].R:null;
-        var m=lastPis[s]&&lastPis[s].m2?lastPis[s].m2:null;
-        return{name:s,val:R&&m&&m>0?R/m:null,color:PISOS_CLR[s]};
-      }).filter(function(d){return d.val!=null;});
-      pm2Data.sort(function(a,b){return b.val-a.val;});
-      var maxPm2=pm2Data.length?pm2Data[0].val:1;
-      var barH=Math.max(160,pm2Data.length*44+40);
-      // Override chart div height
-      chartDiv.style.height=barH+"px";
-      window._chartData["pis"]={type:"bar-h",data:pm2Data,fmtTip:function(v){return v!=null?"R$ "+v.toFixed(0)+"/m²":"—";},maxOverride:maxPm2*1.15,fmtAxis:function(v){return"R$ "+v.toFixed(0);}};
-    } else {
-      series=S.aPis.map(function(s){return{name:s,color:PISOS_CLR[s],values:pisF.map(function(d){var v=d[s]?d[s][S.pisM]:null;return{x:lbl(d.date),y:v};})};});
-      fmtY=S.pisM==="R"?function(v){return(v/1000).toFixed(0)+"k";}:function(v){return v!=null?v.toFixed(0):"";};
-      fmtTip=S.pisM==="R"?fmtBR:function(v){return v?v.toFixed(0)+" m²":"—";};
-      window._chartData["pis"]={type:"stacked-bar",showTotal:true,series:series,fmtY:fmtY,fmtTip:fmtTip};
-    }
+    // ── Metric toggle: R$ or m² ──────────────────────────────────────────────
+    if(!S.pisM)S.pisM="R";
+    var modeRowPis=h("div",{style:{display:"flex",gap:"8px",marginBottom:"10px",flexWrap:"wrap"}});
+    [{k:"R",l:"💰 Faturamento"},{k:"m2",l:"📐 Volume m²"}].forEach(function(m){
+      var active=S.pisM===m.k;
+      modeRowPis.appendChild(h("button",{
+        className:"period-mode-btn"+(active?" active":""),
+        style:{background:active?"#4f8ef7":"transparent",color:active?"#fff":"#4f8ef7",
+               border:"1.5px solid #4f8ef7",borderRadius:"8px",padding:"5px 14px",
+               fontSize:"12px",fontWeight:"600",cursor:"pointer"},
+        onClick:function(){update(function(){S.pisM=m.k;});}
+      },[m.l]));
+    });
+    div.appendChild(modeRowPis);
+
+    // ── Single ranking chart ──────────────────────────────────────────────────
+    var pisRankData=S.aPis.filter(function(s){return s!=="Outros";}).map(function(s){
+      var val;
+      if(S.pisM==="m2"){
+        val=multiPis?pisF.reduce(function(a,d){return a+(d[s]&&d[s].m2?d[s].m2:0);},0):(lastPis[s]&&lastPis[s].m2?lastPis[s].m2:0);
+      } else {
+        val=multiPis?pisF.reduce(function(a,d){return a+(d[s]&&d[s].R?d[s].R:0);},0):(lastPis[s]&&lastPis[s].R?lastPis[s].R:0);
+      }
+      return{name:s,val:val,color:PISOS_CLR[s]};
+    }).filter(function(d){return d.val>0;}).sort(function(a,b){return b.val-a.val;});
+    var pisRankH=Math.max(80,pisRankData.length*32+60);
+    var pisFmtTip=S.pisM==="m2"?function(v){return v!=null?v.toLocaleString("pt-BR",{maximumFractionDigits:0})+" m²":"—";}:fmtBR;
+    div.appendChild(h("div",{className:"card"},[
+      h("div",{className:"card-title"},["Ranking Pisos & Revestimentos — "+perioPisLbl]),
+      h("div",{id:"chart-pis-rank",className:"chart-wrap",style:{height:pisRankH+"px"}})
+    ]));
+    window._chartData=window._chartData||{};
+    window._chartData["pis-rank"]={type:"bar-h",data:pisRankData,fmtTip:pisFmtTip};
   }
   return div;
 }
 
-// ── TAB: PINTURA ─────────────────────────────────────────────────────────────
+
 function buildTabPintura(pintF,lastPint,dates,yrs){
   var div=h("div",{});
   div.appendChild(h("div",{className:"card-sm"},[entityFilter(
