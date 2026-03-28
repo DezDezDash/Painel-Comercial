@@ -859,10 +859,10 @@ function buildTabParcial(){
   var modeLabel=mode==="vend"?"Vendedores":mode==="forn"?"Fornecedores":"Mix de Produtos";
   var stLabel=st==="TOTAL"?"Rede":st;
   div.appendChild(h("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"14px",flexWrap:"wrap"}},[ 
-    h("span",{style:{fontSize:"15px",fontWeight:"800",color:clr}},["📊 "+modeLabel+" — "+stLabel+" · Mar/26"]),
+    h("span",{style:{fontSize:"15px",fontWeight:"800",color:clr}},["📊 "+modeLabel+" — "+stLabel+" · "+MES[(new Date()).getMonth()]+"/"+(new Date()).getFullYear().toString().slice(2)]),
     h("span",{style:{background:"#1a2540",border:"1px solid #2d3a52",borderRadius:"6px",
       padding:"3px 10px",fontSize:"11px",color:"#8b9dc3"}},[
-      "01 a 26/03 · Total: R$ "+(total/1000).toFixed(0)+"k"
+      "01 a "+(S.parcialDia<10?"0"+S.parcialDia:S.parcialDia)+"/03 · Total: R$ "+(total/1000).toFixed(0)+"k"
     ])
   ]));
   var card=h("div",{className:"card",style:{padding:"14px 16px"}});
