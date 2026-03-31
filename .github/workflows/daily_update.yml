@@ -1,0 +1,47 @@
+name: Atualização Automática do Dashboard
+
+on:
+  schedule:
+    - cron: "0 13-22 * * *"  # De hora em hora das 10h às 19h BRT
+  workflow_dispatch:           # Permite disparar manualmente
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r scripts/requirements.txt
+      - uses: browser-actions/setup-chrome@v1
+      - name: Executar scraper
+        env:
+          SITE_LOGIN: ${{ secrets.SITE_LOGIN }}
+          SITE_SENHA: ${{ secrets.SITE_SENHA }}
+        run: python scripts/scraper.py
+      - run: python scripts/inject_data.py
+      - name: Salvar screenshots de erro
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: /tmp/debug_*.png
+          retention-days: 7
+      - name: Commit e push
+        run: |
+          git config user.name  "Dashboard Bot"
+          git config user.email "dashboard-bot@dezdez.com.br"
+          git add data.js scripts/scraped_data.json
+          if git diff --staged --quiet; then
+            echo "Sem alterações."
+          else
+            git commit -m "Auto-update: $(TZ='America/Recife' date +'%d/%m/%Y %H:%M') BRT"
+            git push origin HEAD
+          fi
