@@ -73,37 +73,56 @@ def screenshot(driver, name):
         pass
 
 
-def select_pf_dropdown(driver, label_text, option_text):
-    try:
-        container = driver.find_element(By.XPATH,
-            f"//label[normalize-space(text())='{label_text}']/following-sibling::div[contains(@class,'ui-selectonemenu')]"
-            f" | //span[normalize-space(text())='{label_text}']/following-sibling::div[contains(@class,'ui-selectonemenu')]"
-            f" | //*[normalize-space(text())='{label_text}']/parent::*/following-sibling::*[contains(@class,'ui-selectonemenu')]")
-        driver.execute_script("arguments[0].click();", container)
-        time.sleep(0.6)
-        panel = WebDriverWait(driver, 8).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".ui-selectonemenu-panel:not([style*='display: none'])"))
-        )
-        driver.execute_script("arguments[0].click();",
-            panel.find_element(By.XPATH, f".//li[normalize-space(text())='{option_text}']"))
-        wait_ajax(driver)
-        return True
-    except Exception:
-        pass
-    try:
-        for sel_el in driver.find_elements(By.TAG_NAME, "select"):
-            try:
-                s = Select(sel_el)
-                if option_text in [o.text.strip() for o in s.options]:
-                    driver.execute_script("arguments[0].style.display='block';", sel_el)
-                    s.select_by_visible_text(option_text)
-                    driver.execute_script("arguments[0].dispatchEvent(new Event('change',{bubbles:true}));", sel_el)
-                    wait_ajax(driver)
-                    return True
-            except Exception:
+def select_pf_dropdown(driver, option_text):
+    """Select option_text in whichever PrimeFaces selectOneMenu contains it."""
+
+    # Strategy 1: directly set the hidden <select> whose options include option_text
+    for sel_el in driver.find_elements(By.TAG_NAME, "select"):
+        try:
+            s = Select(sel_el)
+            opts = {o.text.strip(): o.get_attribute("value") for o in s.options}
+            if option_text not in opts:
                 continue
-    except Exception:
-        pass
+            opt_val = opts[option_text]
+            driver.execute_script(
+                "arguments[0].value = arguments[1];"
+                "arguments[0].dispatchEvent(new Event('change', {bubbles: true}));",
+                sel_el, opt_val,
+            )
+            wait_ajax(driver)
+            time.sleep(0.3)
+            print(f"    [select] '{option_text}' via hidden <select>")
+            return True
+        except Exception:
+            continue
+
+    # Strategy 2: click PrimeFaces trigger → find item in open panel
+    for menu in driver.find_elements(By.CSS_SELECTOR, "div.ui-selectonemenu"):
+        try:
+            trigger = menu.find_element(By.CSS_SELECTOR, ".ui-selectonemenu-trigger")
+            driver.execute_script("arguments[0].click();", trigger)
+            time.sleep(0.5)
+            try:
+                panel = WebDriverWait(driver, 5).until(
+                    EC.visibility_of_element_located(
+                        (By.CSS_SELECTOR, ".ui-selectonemenu-panel:not([style*='display: none'])")
+                    )
+                )
+                for item in panel.find_elements(By.CSS_SELECTOR, "li.ui-selectonemenu-item"):
+                    if item.text.strip() == option_text:
+                        driver.execute_script("arguments[0].click();", item)
+                        wait_ajax(driver)
+                        print(f"    [select] '{option_text}' via PrimeFaces panel")
+                        return True
+                # option not in this panel — close it and continue
+                driver.execute_script("arguments[0].click();", trigger)
+                time.sleep(0.2)
+            except Exception:
+                pass
+        except Exception:
+            continue
+
+    print(f"    [select] FALHOU para '{option_text}'")
     return False
 
 
@@ -160,7 +179,8 @@ def extract_table(driver):
                 if len(cells) < 2:
                     continue
                 name = cells[0].text.strip()
-                if not name or name.upper() in ("TOTAL", ""):
+                # skip blank, total rows (handle "Total", "Total:", "TOTAL", etc.)
+                if not name or name.upper().rstrip(":").strip() == "TOTAL":
                     continue
                 try:
                     valor = parse_br_float(cells[idx_valor].text) if idx_valor < len(cells) else 0.0
@@ -239,13 +259,9 @@ def navigate_to_painel_vendas(driver):
 def run_extraction(driver, loja_code, loja_label, por_option, start_str, end_str):
     print(f"  [{loja_code}] Por: {por_option} ...")
     try:
-        for label in ("TipoVendedor:", "TipoVendedor"):
-            if select_pf_dropdown(driver, label, loja_label):
-                break
+        select_pf_dropdown(driver, loja_label)
         time.sleep(0.5)
-        for label in ("Por:", "Por"):
-            if select_pf_dropdown(driver, label, por_option):
-                break
+        select_pf_dropdown(driver, por_option)
         time.sleep(0.5)
         set_date_field(driver, start_str, is_end=False)
         set_date_field(driver, end_str,   is_end=True)
