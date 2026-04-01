@@ -5,10 +5,10 @@ const dashboardData = {
   "parcialDia": 1,
   "month_key": "2026-04-01",
   "parcial": {
-    "CAM": 12061.39,
-    "CAV": 4641.1,
-    "SLM": 10140.71,
-    "CAX": 2811.37
+    "CAM": 13300.98,
+    "CAV": 4791.4,
+    "SLM": 10766.96,
+    "CAX": 4580.22
   },
   "vendas_por_vendedor": {
     "CAM": {
@@ -20,20 +20,24 @@ const dashboardData = {
           "R": 3794.31
         },
         {
+          "n": "Conceição",
+          "R": 2658.53
+        },
+        {
           "n": "Junior",
-          "R": 2442.11
+          "R": 2503.51
         },
         {
           "n": "Eliete",
-          "R": 2203.88
-        },
-        {
-          "n": "Conceição",
-          "R": 2174.93
+          "R": 2453.37
         },
         {
           "n": "Chico",
-          "R": 1446.16
+          "R": 1884.28
+        },
+        {
+          "n": "Comercial Dezdez Camaragibe",
+          "R": 6.98
         }
       ]
     },
@@ -43,19 +47,19 @@ const dashboardData = {
       "rows": [
         {
           "n": "Comercial Dezdez Cavaleiro",
-          "R": 2226.46
+          "R": 2229.16
         },
         {
           "n": "Valdete Ferreira da Rocha",
           "R": 2168.44
         },
         {
-          "n": "Daciana",
-          "R": 144.75
+          "n": "Ana",
+          "R": 249.05
         },
         {
-          "n": "Ana",
-          "R": 101.45
+          "n": "Daciana",
+          "R": 144.75
         }
       ]
     },
@@ -73,15 +77,15 @@ const dashboardData = {
         },
         {
           "n": "Jean",
-          "R": 1999.92
+          "R": 2394.17
         },
         {
           "n": "Luziane",
-          "R": 1434.66
+          "R": 1660.16
         },
         {
           "n": "Comercial DezDez São Lourenço",
-          "R": 107.99
+          "R": 114.49
         },
         {
           "n": "Erick",
@@ -93,6 +97,10 @@ const dashboardData = {
       "dia": 1,
       "meta": 80000,
       "rows": [
+        {
+          "n": "Carlos Henrique",
+          "R": 1194.85
+        },
         {
           "n": "Raphaela",
           "R": 1006.81
@@ -106,8 +114,16 @@ const dashboardData = {
           "R": 851.84
         },
         {
+          "n": "Lopes",
+          "R": 559.2
+        },
+        {
           "n": "Comercial Dezdez Caxangá",
           "R": 16.78
+        },
+        {
+          "n": "Rogerio",
+          "R": 14.8
         }
       ]
     }
@@ -152,28 +168,30 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 4995.91,
+        "PISOS": 5396.94,
         "Argamassas": 1259.18,
-        "Pintura": 879.73,
+        "Pintura": 1202.62,
         "Básicos": 913.0,
         "Portas e Esquadrias": 760.55,
-        "Complementos Hidráulicos": 209.56,
-        "Ferragens": 138.1,
+        "Complementos Hidráulicos": 289.35,
+        "Ferragens": 162.6,
         "CABOS ELÉTRICOS": 105.99,
         "Ferramentas": 84.5,
         "Elétrica": 290.75,
-        "Iluminação": 99.5,
-        "Limpeza": 69.6,
-        "Complementos de Pintura": 24.9,
+        "Iluminação": 106.48,
+        "Limpeza": 130.85,
+        "Complementos de Pintura": 148.66,
         "Impermeabilizante": 68.8,
         "MÓVEIS": 23.9,
-        "Utilidades": 85.7,
-        "Acessorios de Ferramentas": 14.85,
+        "Utilidades": 102.96,
+        "Acessorios de Ferramentas": 20.09,
         "Conexões": 77.31,
         "Louças": 1527.7,
         "TUBOS": 314.26,
         "PLÁSTICOS SANITÁRIOS": 109.7,
-        "Hidráulica": 7.9
+        "Hidráulica": 7.9,
+        "Metais Sanitarios": 133.99,
+        "Acessorios de banheiro": 62.9
       }
     ],
     "CAV": [
@@ -217,20 +235,20 @@ const dashboardData = {
       {
         "date": "2026-04-01",
         "PISOS": 1674.95,
-        "Pintura": 574.24,
-        "Argamassas": 525.75,
+        "Pintura": 663.14,
+        "Argamassas": 574.25,
         "FORA DE LINHA": 384.3,
         "Portas e Esquadrias": 233.89,
         "Impermeabilizante": 181.7,
-        "Complementos Hidráulicos": 161.8,
-        "Elétrica": 138.19,
+        "Complementos Hidráulicos": 164.5,
+        "Elétrica": 149.69,
         "EPI": 111.9,
         "Utilidades": 108.2,
         "Ferramentas Manuais": 103.49,
         "Conexões": 91.95,
         "Iluminação": 91.04,
-        "Acessorios de Ferramentas": 87.24,
-        "Complementos de Pintura": 76.26,
+        "Acessorios de Ferramentas": 92.64,
+        "Complementos de Pintura": 81.06,
         "Ferragens": 44.3,
         "Básicos": 29.8,
         "Metais Sanitarios": 10.6
@@ -277,30 +295,30 @@ const dashboardData = {
       {
         "date": "2026-04-01",
         "Argamassas": 1631.39,
-        "Pintura": 2199.3,
+        "Pintura": 2540.68,
         "Portas e Esquadrias": 830.92,
         "Hidráulica": 705.5,
         "PISOS": 624.45,
         "Complementos Hidráulicos": 430.96,
         "Louças": 329.0,
         "Conexões": 275.42,
-        "Elétrica": 264.4,
+        "Elétrica": 276.2,
         "Balcões": 169.9,
-        "Iluminação": 211.72,
-        "Acessorios de Ferramentas": 260.03,
+        "Iluminação": 275.59,
+        "Acessorios de Ferramentas": 264.08,
         "TUBOS": 82.9,
         "Chuveiros": 523.4,
-        "Complementos de Pintura": 209.37,
-        "Utilidades": 118.9,
+        "Complementos de Pintura": 287.24,
+        "Utilidades": 125.4,
         "Básicos": 33.9,
         "Ferramentas Manuais": 400.09,
         "Metais Sanitarios": 27.9,
         "Impermeabilizante": 175.86,
         "PLÁSTICOS SANITÁRIOS": 4.1,
         "REVESTIMENTOS": 403.1,
-        "Acessorios de banheiro": 126.6,
-        "Limpeza": 64.2,
-        "Ferragens": 21.5,
+        "Acessorios de banheiro": 151.72,
+        "Limpeza": 96.96,
+        "Ferragens": 84.4,
         "EPI": 13.0,
         "Ferramentas": 2.9
       }
@@ -345,13 +363,13 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "Argamassas": 631.3,
+        "Argamassas": 854.9,
         "Acessorios de Ferramentas": 262.1,
-        "Pintura": 642.1,
+        "Pintura": 653.6,
         "Limpeza": 167.6,
         "Iluminação": 134.57,
         "Elétrica": 182.86,
-        "PISOS": 83.67,
+        "PISOS": 1302.8,
         "Ferramentas Manuais": 55.5,
         "Complementos de Pintura": 53.7,
         "TUBOS": 36.5,
@@ -362,7 +380,9 @@ const dashboardData = {
         "Ferragens": 32.2,
         "Ferramentas": 25.8,
         "Utilidades": 16.9,
-        "Portas e Esquadrias": 15.9
+        "Portas e Esquadrias": 15.9,
+        "Básicos": 559.2,
+        "FORA DE LINHA": 3.3
       }
     ],
     "Rede": [
@@ -405,23 +425,23 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 6949.82,
-        "Argamassas": 4047.62,
-        "Pintura": 4295.37,
-        "Básicos": 976.7,
+        "PISOS": 8999.14,
+        "Argamassas": 4319.72,
+        "Pintura": 5060.04,
+        "Básicos": 1535.9,
         "Portas e Esquadrias": 1841.26,
-        "Complementos Hidráulicos": 916.52,
-        "Ferragens": 236.1,
+        "Complementos Hidráulicos": 999.01,
+        "Ferragens": 323.5,
         "CABOS ELÉTRICOS": 105.99,
         "Ferramentas": 113.2,
-        "Elétrica": 876.2,
-        "Iluminação": 536.83,
-        "Limpeza": 301.4,
-        "Complementos de Pintura": 364.23,
+        "Elétrica": 899.5,
+        "Iluminação": 607.68,
+        "Limpeza": 395.41,
+        "Complementos de Pintura": 570.66,
         "Impermeabilizante": 426.36,
         "MÓVEIS": 23.9,
-        "Utilidades": 329.7,
-        "Acessorios de Ferramentas": 624.22,
+        "Utilidades": 353.46,
+        "Acessorios de Ferramentas": 638.91,
         "Conexões": 466.17,
         "Hidráulica": 721.4,
         "Louças": 1856.7,
@@ -429,12 +449,12 @@ const dashboardData = {
         "TUBOS": 433.66,
         "Chuveiros": 523.4,
         "Ferramentas Manuais": 559.08,
-        "Metais Sanitarios": 38.5,
+        "Metais Sanitarios": 172.49,
         "PLÁSTICOS SANITÁRIOS": 113.8,
         "EPI": 204.0,
-        "FORA DE LINHA": 384.3,
+        "FORA DE LINHA": 387.6,
         "REVESTIMENTOS": 403.1,
-        "Acessorios de banheiro": 126.6
+        "Acessorios de banheiro": 214.62
       }
     ]
   },
@@ -559,60 +579,60 @@ const dashboardData = {
     },
     {
       "date": "2026-04-01",
-      "DO MESTRE": 2525.5,
-      "INCENOR": 3772.61,
+      "DO MESTRE": 2749.1,
+      "INCENOR": 5094.06,
       "REALLE": 1135.54,
-      "IQUINE": 2507.57,
-      "WEBER QUARTZOLIT": 2155.92,
+      "IQUINE": 3063.99,
+      "WEBER QUARTZOLIT": 2215.22,
       "ANAUGER": 639.9,
-      "BRASILIT": 607.2,
-      "ATLAS": 667.69,
+      "BRASILIT": 1166.4,
+      "ATLAS": 973.32,
       "FORTLEV": 618.71,
       "QUALITY": 1111.44,
       "Perfilplast Industria e Comerc": 349.7,
       "LUZARTE": 1166.8,
       "FERTAK COMERCIO E IMPORTAÇÃO": 545.97,
-      "MEGAÓ": 812.78,
+      "MEGAÓ": 902.89,
       "GHEL'PLUS": 196.8,
-      "ELIZABETH": 90.18,
-      "LEDVANCE": 260.51,
-      "MEC-TRONIC": 390.22,
+      "ELIZABETH": 818.05,
+      "LEDVANCE": 251.88,
+      "MEC-TRONIC": 402.02,
       "MADELAR": 161.01,
-      "PADO": 210.01,
-      "LORENZETTI": 722.3,
-      "ORBI QUIMICA LTDA": 139.3,
+      "PADO": 234.51,
+      "LORENZETTI": 759.2,
+      "ORBI QUIMICA LTDA": 168.65,
       "NORCOLA": 105.99,
-      "GRANPLAST": 635.3,
-      "LUCONI": 97.1,
-      "ALIANÇA": 79.9,
+      "GRANPLAST": 660.42,
+      "LUCONI": 107.0,
+      "ALIANÇA": 142.8,
       "TAF": 67.5,
       "MYPA": 142.5,
-      "NITROLUX": 94.43,
+      "NITROLUX": 101.41,
       "STARRETT INDUSTRIA E COMERCIO": 168.4,
       "PRATIMIX": 69.4,
       "SILVANA": 49.9,
       "CORTAG": 105.3,
       "LEGRAND": 190.83,
-      "NORTON": 58.35,
+      "NORTON": 73.04,
       "BLUKIT": 47.8,
       "BEMFIXA": 99.5,
       "METAIS LEAO": 102.3,
       "Max-Giro": 60.5,
-      "PULVITEC": 65.06,
+      "PULVITEC": 67.76,
       "VEDACIT": 210.76,
       "CENSI": 61.5,
       "TRAMONTINA": 23.9,
-      "ADERE": 114.2,
+      "ADERE": 142.96,
       "KALIPSO": 78.2,
-      "MULT MIX IMPORTADORA": 33.7,
+      "MULT MIX IMPORTADORA": 40.2,
       "ARIELLE": 1951.47,
-      "ROCA": 689.9,
+      "ROCA": 856.88,
       "TECNOGRES": 403.1,
       "METALOSA": 310.3,
       "MARLUVAS": 125.8,
       "BRASFORMA": 105.7,
       "VIQUA": 94.8,
-      "ULTRACLEAN": 49.4,
+      "ULTRACLEAN": 70.26,
       "EXTRALUX": 29.9,
       "COMFORT DOOR": 24.9,
       "ILUMI": 17.2,
