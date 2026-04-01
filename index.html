@@ -404,34 +404,6 @@ var S={
   metaMonth: null
 };
 
-// ── Sobrescreve com dados do scraper diário (data.js) se disponível ──────────
-(function(){
-  if(typeof dashboardData==="undefined"||!dashboardData){return;}
-  try{
-    var d=dashboardData;
-    if(d.vendas_por_vendedor){
-      var vv=d.vendas_por_vendedor;
-      ["CAM","CAV","SLM","CAX"].forEach(function(k){if(vv[k])DEFAULT_VEND[k]=vv[k];});
-    }
-    if(d.linha_produto){
-      var lp=d.linha_produto;
-      if(lp.CAM)DEFAULT_LP_CAM=lp.CAM;
-      if(lp.CAV)DEFAULT_LP_CAV=lp.CAV;
-      if(lp.SLM)DEFAULT_LP_SLM=lp.SLM;
-      if(lp.CAX)DEFAULT_LP_CAX=lp.CAX;
-      if(lp.Rede)DEFAULT_LP=lp.Rede;
-    }
-    if(d.fornecedor)DEFAULT_RANK=d.fornecedor;
-    if(d.parcial)S.parcial=d.parcial;
-    if(d.parcialDia)S.parcialDia=d.parcialDia;
-    S.lp=normalizeLPData(DEFAULT_LP);
-    S.lpCAM=normalizeLPData(DEFAULT_LP_CAM);
-    S.lpCAV=normalizeLPData(DEFAULT_LP_CAV);
-    S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
-    S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
-    S.rank=DEFAULT_RANK.slice();
-  }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
-})();
 
 function tabDates(){
   // Returns dates available for the current tab's data source
@@ -546,6 +518,35 @@ var DEFAULT_VEND={"CAM": {"dia": 30, "meta": 80000, "rows": [{"n": "Leticia", "R
 
 var VEND_EXCLUIDOS=/^Comercial/i;
 var VEND_EXCLUIDOS_EXATOS=["Lilian","LILIAN","Alci Travassos"];
+
+// ── Sobrescreve com dados do scraper diário (data.js) se disponível ──────────
+(function(){
+  if(typeof dashboardData==="undefined"||!dashboardData){return;}
+  try{
+    var d=dashboardData;
+    if(d.parcial)S.parcial=d.parcial;
+    if(d.parcialDia)S.parcialDia=d.parcialDia;
+    if(d.vendas_por_vendedor){
+      var vv=d.vendas_por_vendedor;
+      ["CAM","CAV","SLM","CAX"].forEach(function(k){if(vv[k])DEFAULT_VEND[k]=vv[k];});
+    }
+    if(d.linha_produto){
+      var lp=d.linha_produto;
+      if(lp.CAM)DEFAULT_LP_CAM=lp.CAM;
+      if(lp.CAV)DEFAULT_LP_CAV=lp.CAV;
+      if(lp.SLM)DEFAULT_LP_SLM=lp.SLM;
+      if(lp.CAX)DEFAULT_LP_CAX=lp.CAX;
+      if(lp.Rede)DEFAULT_LP=lp.Rede;
+    }
+    if(d.fornecedor)DEFAULT_RANK=d.fornecedor;
+    S.lp=normalizeLPData(DEFAULT_LP);
+    S.lpCAM=normalizeLPData(DEFAULT_LP_CAM);
+    S.lpCAV=normalizeLPData(DEFAULT_LP_CAV);
+    S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
+    S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
+    S.rank=DEFAULT_RANK.slice();
+  }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
+})();
 
 function buildTabVendedores(){
   var div=h("div",{});
