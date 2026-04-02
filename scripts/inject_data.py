@@ -81,8 +81,14 @@ def main():
             pass
 
     rank: dict = {}
+    fornecedor_loja: dict = {}
     for loja in lojas:
-        for sup, val in extr.get(loja, {}).get("Fornecedor", {}).items():
+        forn = extr.get(loja, {}).get("Fornecedor", {})
+        fornecedor_loja[loja] = sorted(
+            [{"n": k, "R": round(v, 2)} for k, v in forn.items() if v > 0],
+            key=lambda x: -x["R"]
+        )
+        for sup, val in forn.items():
             rank[sup] = round(rank.get(sup, 0.0) + val, 2)
     fornecedor_arr = upsert_month(fornecedor_arr, month_key,
                                   dict(sorted(rank.items(), key=lambda x: -x[1])))
@@ -95,6 +101,7 @@ def main():
         "vendas_por_vendedor": vendas_por_vendedor,
         "linha_produto": linha_produto,
         "fornecedor": fornecedor_arr,
+        "fornecedor_loja": fornecedor_loja,
     }
 
     js_content = (
