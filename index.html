@@ -2150,7 +2150,8 @@ function buildTabMetas(){
   var pctRede=totMeta>0?totParc/totMeta:0;
   // Projeção Rede = soma das projeções individuais por loja (consistente com os cards)
   var projRede=STORES.reduce(function(a,s){var pc=pct(s),parc=S.parcial[s]||0;return a+(pc>0&&parc>0?parc/pc:0);},0);
-  var defRede=projRede-totMeta;
+  // Atraso vs ritmo: quanto a rede está abaixo do esperado pelo pace hoje
+  var defRede=STORES.reduce(function(a,s){return a+((S.metas[s]||0)*pct(s)-(S.parcial[s]||0));},0);
   var faltaRede=Math.max(0,totMeta-totParc);
   var medAtualRede=elAll>0?totParc/elAll:0;
   var medNecRede=(totAll-elAll)>0?faltaRede/(totAll-elAll):0;
@@ -2226,7 +2227,7 @@ function buildTabMetas(){
     ["Meta",fmtR(totMeta),"#e8edf8"],
     ["Falta",fmtR(faltaRede),"#8b9dc3"],
     ["Projeção",fmtR(Math.round(projRede)),semRede],
-    [defRede>=0?"Superávit":"Deficit",(defRede>=0?"▲ +":"▼ ")+fmtR(Math.abs(Math.round(defRede))),defRede>=0?"#4fbf8e":"#f74f7e"]
+    [defRede<=0?"Adiantado":"Atraso",(defRede<=0?"▲ +":"▼ ")+fmtR(Math.abs(Math.round(defRede))),defRede<=0?"#4fbf8e":"#f74f7e"]
   ].forEach(function(k){
     kpiGrid.appendChild(h("div",{style:{display:"flex",flexDirection:"column",gap:"2px"}},[
       h("span",{style:{fontSize:"10px",color:"#8b9dc3",textTransform:"uppercase",letterSpacing:".06em"}},[k[0]]),
@@ -2272,7 +2273,7 @@ function buildTabMetas(){
     var pc=pct(st);
     var pctSt=meta>0?parc/meta:0;
     var proj=pc>0?parc/pc:0;
-    var def=proj-meta;
+    var def=(meta*pc)-parc; // atraso vs ritmo esperado hoje
     var falta=Math.max(0,meta-parc);
     var elSt=el(st);
     var totSt=tot(st);
@@ -2335,11 +2336,11 @@ function buildTabMetas(){
     if(meta>0&&proj>0){
       body.appendChild(h("div",{style:{
         marginTop:"10px",padding:"5px 8px",borderRadius:"6px",
-        background:def>=0?"#4fbf8e18":"#f74f7e18",
-        border:"1px solid "+(def>=0?"#4fbf8e33":"#f74f7e33"),
+        background:def<=0?"#4fbf8e18":"#f74f7e18",
+        border:"1px solid "+(def<=0?"#4fbf8e33":"#f74f7e33"),
         fontSize:"11px",fontWeight:"700",textAlign:"center",
-        color:def>=0?"#4fbf8e":"#f74f7e"
-      }},[(def>=0?"▲ Superávit: +":"▼ Deficit: ")+fmtR(Math.abs(Math.round(def)))]));
+        color:def<=0?"#4fbf8e":"#f74f7e"
+      }},[(def<=0?"▲ Adiantado: +":"▼ Atraso: ")+fmtR(Math.abs(Math.round(def)))]));
     }
 
     // ── Expansível vendedores ─────────────────────────────────────────────
