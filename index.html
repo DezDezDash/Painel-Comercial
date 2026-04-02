@@ -379,9 +379,9 @@ var S={
   fat:DEFAULT_FAT.slice(), lp:normalizeLPData(DEFAULT_LP), rank:DEFAULT_RANK.slice(), pis:DEFAULT_PISOS.slice(), pint:DEFAULT_PINT.slice(), arg:DEFAULT_ARG.slice(),
   lpCAM:normalizeLPData(DEFAULT_LP_CAM), lpCAV:normalizeLPData(DEFAULT_LP_CAV), lpSLM:normalizeLPData(DEFAULT_LP_SLM), lpCAX:normalizeLPData(DEFAULT_LP_CAX),
   tab:0, lastFile:null, execM:null, execExpanded:{},
-  gMode:"range", gYr:null, gFrom:"2026-04-01", gTo:"2026-04-01",
+  gMode:"range", gYr:null, gFrom:"2026-03-01", gTo:"2026-03-01",
   cmpMode:false, useLocal:false,
-  lMode:"range", lYr:null, lFrom:"2026-04-01", lTo:"2026-04-01",
+  lMode:"range", lYr:null, lFrom:"2026-03-01", lTo:"2026-03-01",
   fatM:"R", pisM:"R", pintM:"R", argM:"R",
   aStores:["CAM","CAV","SLM","CAX"],
   aMix:null, aMixCAM:null, aMixCAV:null, aMixSLM:null, aMixCAX:null, mixStore:null,
@@ -521,6 +521,34 @@ var DEFAULT_VEND={"CAM":{"dia":1,"meta":80000,"rows":[{"n":"Leticia","R":0.0},{"
 var VEND_EXCLUIDOS=/^Comercial/i;
 var VEND_EXCLUIDOS_EXATOS=["Lilian","LILIAN","Alci Travassos"];
 
+// ── Sobrescreve com dados do scraper diário (data.js) se disponível ──────────
+(function(){
+  if(typeof dashboardData==="undefined"||!dashboardData){return;}
+  try{
+    var d=dashboardData;
+    if(d.parcial)S.parcial=d.parcial;
+    if(d.parcialDia)S.parcialDia=d.parcialDia;
+    if(d.vendas_por_vendedor){
+      var vv=d.vendas_por_vendedor;
+      ["CAM","CAV","SLM","CAX"].forEach(function(k){if(vv[k])DEFAULT_VEND[k]=vv[k];});
+    }
+    if(d.linha_produto){
+      var lp=d.linha_produto;
+      if(lp.CAM)DEFAULT_LP_CAM=lp.CAM;
+      if(lp.CAV)DEFAULT_LP_CAV=lp.CAV;
+      if(lp.SLM)DEFAULT_LP_SLM=lp.SLM;
+      if(lp.CAX)DEFAULT_LP_CAX=lp.CAX;
+      if(lp.Rede)DEFAULT_LP=lp.Rede;
+    }
+    if(d.fornecedor)DEFAULT_RANK=d.fornecedor;
+    S.lp=normalizeLPData(DEFAULT_LP);
+    S.lpCAM=normalizeLPData(DEFAULT_LP_CAM);
+    S.lpCAV=normalizeLPData(DEFAULT_LP_CAV);
+    S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
+    S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
+    S.rank=DEFAULT_RANK.slice();
+  }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
+})();
 
 function buildTabVendedores(){
   var div=h("div",{});
@@ -648,52 +676,6 @@ function buildTabVendedores(){
 
 var PARCIAL_3003={"CAM":{"forn":[],"lp":[]},"CAV":{"forn":[],"lp":[]},"SLM":{"forn":[],"lp":[]},"CAX":{"forn":[],"lp":[]}};
 
-// ── Sobrescreve com dados do scraper diário (data.js) se disponível ──────────
-(function(){
-  if(typeof dashboardData==="undefined"||!dashboardData){return;}
-  try{
-    var d=dashboardData;
-    if(d.parcial)S.parcial=d.parcial;
-    if(d.parcialDia)S.parcialDia=d.parcialDia;
-    if(d.vendas_por_vendedor){
-      var vv=d.vendas_por_vendedor;
-      ["CAM","CAV","SLM","CAX"].forEach(function(k){if(vv[k])DEFAULT_VEND[k]=vv[k];});
-    }
-    if(d.linha_produto){
-      var lp=d.linha_produto;
-      if(lp.CAM)DEFAULT_LP_CAM=lp.CAM;
-      if(lp.CAV)DEFAULT_LP_CAV=lp.CAV;
-      if(lp.SLM)DEFAULT_LP_SLM=lp.SLM;
-      if(lp.CAX)DEFAULT_LP_CAX=lp.CAX;
-      if(lp.Rede)DEFAULT_LP=lp.Rede;
-    }
-    if(d.fornecedor)DEFAULT_RANK=d.fornecedor;
-    S.lp=normalizeLPData(DEFAULT_LP);
-    S.lpCAM=normalizeLPData(DEFAULT_LP_CAM);
-    S.lpCAV=normalizeLPData(DEFAULT_LP_CAV);
-    S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
-    S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
-    S.rank=DEFAULT_RANK.slice();
-    // Atualiza PARCIAL_3003 com dados do mês atual (abas Fornecedores e Mix dentro de Parcial)
-    ["CAM","CAV","SLM","CAX"].forEach(function(k){
-      if(!PARCIAL_3003[k])PARCIAL_3003[k]={};
-      if(d.linha_produto&&d.linha_produto[k]&&d.linha_produto[k].length){
-        var lpEntry=d.linha_produto[k][d.linha_produto[k].length-1];
-        var lpMap={};
-        Object.keys(lpEntry).forEach(function(cat){
-          if(cat==="date")return;
-          var dest=(cat==="PISOS"||cat==="REVESTIMENTOS")?"Pisos & Revestimentos":cat;
-          lpMap[dest]=(lpMap[dest]||0)+lpEntry[cat];
-        });
-        PARCIAL_3003[k].lp=Object.keys(lpMap).map(function(n){return{n:n,R:Math.round(lpMap[n]*100)/100};})
-          .sort(function(a,b){return b.R-a.R;});
-      }
-      if(d.fornecedor_loja&&d.fornecedor_loja[k]&&d.fornecedor_loja[k].length){
-        PARCIAL_3003[k].forn=d.fornecedor_loja[k];
-      }
-    });
-  }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
-})();
 
 function buildVendBlock(st,rows,pace,meta,totDays,elDays,diaRef,clr){
   var div=h("div",{});
@@ -2166,7 +2148,8 @@ function buildTabMetas(){
   var totParc=STORES.reduce(function(a,s){return a+(S.parcial[s]||0);},0);
   var wPace=totMeta>0?STORES.reduce(function(a,s){return a+(S.metas[s]||0)*pct(s);},0)/totMeta:pct("CAV");
   var pctRede=totMeta>0?totParc/totMeta:0;
-  var projRede=wPace>0?totParc/wPace:0;
+  // Projeção Rede = soma das projeções individuais por loja (consistente com os cards)
+  var projRede=STORES.reduce(function(a,s){var pc=pct(s),parc=S.parcial[s]||0;return a+(pc>0&&parc>0?parc/pc:0);},0);
   var defRede=projRede-totMeta;
   var faltaRede=Math.max(0,totMeta-totParc);
   var medAtualRede=elAll>0?totParc/elAll:0;
