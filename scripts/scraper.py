@@ -187,7 +187,7 @@ def extract_table(driver):
                     dev   = parse_br_float(cells[idx_dev].text) if idx_dev is not None and idx_dev < len(cells) else 0.0
                     net   = round(valor - dev, 2)
                     if net != 0:
-                        results[name] = net
+                        results[name] = round(results.get(name, 0.0) + net, 2)
                 except Exception:
                     continue
             if results:
