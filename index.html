@@ -98,7 +98,7 @@ svg text{font-family:system-ui,sans-serif}
 
 </style>
 <!-- Dados auto-gerados pelo GitHub Actions (scraper diário) -->
-<script src="data.js"></script>
+<script src="data.js?v=20260405"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -548,7 +548,26 @@ var PARCIAL_3003={"CAM":{"forn":[],"lp":[]},"CAV":{"forn":[],"lp":[]},"SLM":{"fo
     S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
     S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
     S.rank=DEFAULT_RANK.slice();
-  }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
+  }catch(e){console.warn("dashboardData[fase1]:",e);}
+  try{
+    ["CAM","CAV","SLM","CAX"].forEach(function(k){
+      if(!PARCIAL_3003[k])PARCIAL_3003[k]={};
+      if(d.linha_produto&&d.linha_produto[k]&&d.linha_produto[k].length){
+        var lpEntry=d.linha_produto[k][d.linha_produto[k].length-1];
+        var lpMap={};
+        Object.keys(lpEntry).forEach(function(cat){
+          if(cat==="date")return;
+          var dest=(cat==="PISOS"||cat==="REVESTIMENTOS")?"Pisos & Revestimentos":cat;
+          lpMap[dest]=(lpMap[dest]||0)+lpEntry[cat];
+        });
+        PARCIAL_3003[k].lp=Object.keys(lpMap).map(function(n){return{n:n,R:Math.round(lpMap[n]*100)/100};})
+          .sort(function(a,b){return b.R-a.R;});
+      }
+      if(d.fornecedor_loja&&d.fornecedor_loja[k]&&d.fornecedor_loja[k].length){
+        PARCIAL_3003[k].forn=d.fornecedor_loja[k];
+      }
+    });
+  }catch(e){console.warn("dashboardData[PARCIAL_3003]:",e);}
 })();
 
 function buildTabVendedores(){
