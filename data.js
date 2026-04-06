@@ -5,10 +5,10 @@ const dashboardData = {
   "parcialDia": 6,
   "month_key": "2026-04-01",
   "parcial": {
-    "CAM": 77566.79,
-    "CAV": 40449.3,
-    "SLM": 97695.07,
-    "CAX": 30159.03
+    "CAM": 90991.94,
+    "CAV": 54275.05,
+    "SLM": 109313.19,
+    "CAX": 38495.93
   },
   "vendas_por_vendedor": {
     "CAM": {
@@ -17,19 +17,19 @@ const dashboardData = {
       "rows": [
         {
           "n": "Leticia",
-          "R": 18662.7
+          "R": 23997.78
         },
         {
           "n": "Conceição",
-          "R": 18336.9
+          "R": 20663.76
         },
         {
           "n": "Chico",
-          "R": 16843.99
+          "R": 19381.8
         },
         {
           "n": "Junior",
-          "R": 13581.07
+          "R": 16751.69
         },
         {
           "n": "Eliete",
@@ -37,7 +37,7 @@ const dashboardData = {
         },
         {
           "n": "Comercial Dezdez Camaragibe",
-          "R": 239.68
+          "R": 294.46
         }
       ]
     },
@@ -46,20 +46,20 @@ const dashboardData = {
       "meta": 80000,
       "rows": [
         {
-          "n": "Ana",
-          "R": 12927.56
+          "n": "Valdete Ferreira da Rocha",
+          "R": 23351.16
         },
         {
-          "n": "Valdete Ferreira da Rocha",
-          "R": 12779.89
+          "n": "Ana",
+          "R": 14185.56
         },
         {
           "n": "Daciana",
-          "R": 11588.68
+          "R": 13547.66
         },
         {
           "n": "Comercial Dezdez Cavaleiro",
-          "R": 3153.17
+          "R": 3190.67
         }
       ]
     },
@@ -69,27 +69,27 @@ const dashboardData = {
       "rows": [
         {
           "n": "Jean",
-          "R": 31854.19
+          "R": 35471.15
         },
         {
           "n": "Carla",
-          "R": 27118.33
+          "R": 32499.04
         },
         {
           "n": "Constantine",
-          "R": 18461.1
+          "R": 18686.45
         },
         {
           "n": "Luziane",
-          "R": 11843.09
+          "R": 12770.98
         },
         {
           "n": "Erick",
-          "R": 5484.87
+          "R": 6767.19
         },
         {
           "n": "Comercial DezDez São Lourenço",
-          "R": 2933.49
+          "R": 3118.38
         }
       ]
     },
@@ -99,7 +99,7 @@ const dashboardData = {
       "rows": [
         {
           "n": "Lopes",
-          "R": 9795.19
+          "R": 16419.75
         },
         {
           "n": "Raphaela",
@@ -107,11 +107,11 @@ const dashboardData = {
         },
         {
           "n": "Ednalva",
-          "R": 5069.86
+          "R": 6229.93
         },
         {
           "n": "Rogerio",
-          "R": 3332.07
+          "R": 3835.04
         },
         {
           "n": "Tarcila",
@@ -123,7 +123,7 @@ const dashboardData = {
         },
         {
           "n": "Comercial Dezdez Caxangá",
-          "R": 217.58
+          "R": 266.88
         }
       ]
     }
@@ -168,36 +168,36 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 27148.77,
-        "Pintura": 7343.86,
+        "PISOS": 29897.27,
+        "Pintura": 7600.66,
         "Louças": 4578.96,
-        "Argamassas": 10223.53,
-        "Básicos": 4555.78,
-        "Portas e Esquadrias": 3445.7,
-        "REVESTIMENTOS": 6708.12,
-        "TUBOS": 670.57,
+        "Argamassas": 13249.98,
+        "Básicos": 4655.38,
+        "Portas e Esquadrias": 4080.29,
+        "REVESTIMENTOS": 10048.37,
+        "TUBOS": 1941.97,
         "Elétrica": 1163.5,
-        "Complementos Hidráulicos": 1404.82,
+        "Complementos Hidráulicos": 1583.12,
         "Ferragens": 222.8,
-        "Complementos de Pintura": 633.48,
-        "Iluminação": 569.56,
+        "Complementos de Pintura": 641.38,
+        "Iluminação": 637.24,
         "Metais Sanitarios": 618.27,
         "Limpeza": 286.05,
-        "Utilidades": 243.16,
+        "Utilidades": 483.06,
         "PLÁSTICOS SANITÁRIOS": 298.19,
         "CABOS ELÉTRICOS": 1255.85,
-        "Acessorios de Ferramentas": 461.83,
-        "Ferramentas": 132.58,
-        "Conexões": 288.52,
-        "Impermeabilizante": 1500.6,
+        "Acessorios de Ferramentas": 465.33,
+        "Ferramentas": 146.08,
+        "Conexões": 304.32,
+        "Impermeabilizante": 1674.2,
         "Ferramentas Manuais": 234.58,
-        "Acessorios de banheiro": 754.61,
-        "MÓVEIS": 271.3,
+        "Acessorios de banheiro": 814.51,
+        "MÓVEIS": 531.28,
         "Diversos": 27.67,
-        "Hidráulica": 497.88,
-        "Chuveiros": 901.0,
+        "Hidráulica": 1307.68,
+        "Chuveiros": 1058.8,
         "Jardinagem": 235.7,
-        "EPI": 86.67,
+        "EPI": 146.57,
         "Balcões": 762.9,
         "Ferramentas Eletricas": 39.99
       }
@@ -242,36 +242,36 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 8031.66,
-        "Pintura": 5277.5,
-        "Argamassas": 4490.39,
+        "PISOS": 14216.09,
+        "Pintura": 7249.81,
+        "Argamassas": 6349.28,
         "FORA DE LINHA": 454.2,
         "Portas e Esquadrias": 2094.25,
-        "Acessorios de Ferramentas": 834.84,
+        "Acessorios de Ferramentas": 861.64,
         "Impermeabilizante": 663.53,
-        "Complementos Hidráulicos": 999.25,
-        "Elétrica": 693.08,
-        "EPI": 123.79,
+        "Complementos Hidráulicos": 1056.15,
+        "Elétrica": 798.38,
+        "EPI": 131.29,
         "Utilidades": 1092.04,
         "Ferramentas Manuais": 293.18,
-        "Conexões": 243.18,
-        "Iluminação": 920.69,
-        "Complementos de Pintura": 334.74,
+        "Conexões": 251.58,
+        "Iluminação": 960.49,
+        "Complementos de Pintura": 402.34,
         "Ferragens": 116.7,
-        "Básicos": 2347.19,
+        "Básicos": 3277.27,
         "Metais Sanitarios": 37.7,
-        "REVESTIMENTOS": 4609.7,
+        "REVESTIMENTOS": 6253.35,
         "Jardinagem": 124.8,
         "PLÁSTICOS SANITÁRIOS": 343.63,
         "Chuveiros": 153.7,
-        "Ferramentas": 232.7,
+        "Ferramentas": 286.3,
         "Limpeza": 208.0,
-        "Hidráulica": 1761.8,
+        "Hidráulica": 2379.5,
         "Louças": 2665.73,
-        "Acessorios de banheiro": 517.8,
+        "Acessorios de banheiro": 547.7,
         "CABOS ELÉTRICOS": 539.98,
         "TUBOS": 165.75,
-        "MÓVEIS": 12.9,
+        "MÓVEIS": 235.79,
         "Ferramentas Eletricas": 64.9
       }
     ],
@@ -315,40 +315,40 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "Pintura": 10111.01,
-        "Argamassas": 9372.84,
-        "Hidráulica": 3043.39,
-        "Portas e Esquadrias": 7202.63,
-        "PISOS": 28642.38,
-        "Chuveiros": 1107.02,
-        "Complementos Hidráulicos": 2082.4,
-        "REVESTIMENTOS": 877.67,
-        "Ferramentas Manuais": 837.79,
-        "Louças": 3570.41,
-        "Elétrica": 2833.01,
-        "Complementos de Pintura": 1158.52,
-        "Iluminação": 2228.24,
-        "Conexões": 675.68,
-        "Acessorios de Ferramentas": 1325.52,
-        "Impermeabilizante": 2116.8,
+        "Pintura": 10663.31,
+        "Argamassas": 9820.32,
+        "Hidráulica": 4026.19,
+        "Portas e Esquadrias": 7285.53,
+        "PISOS": 35109.94,
+        "Chuveiros": 1222.42,
+        "Complementos Hidráulicos": 2312.08,
+        "REVESTIMENTOS": 1154.83,
+        "Ferramentas Manuais": 892.69,
+        "Louças": 4404.24,
+        "Elétrica": 2937.93,
+        "Complementos de Pintura": 1243.32,
+        "Iluminação": 2332.35,
+        "Conexões": 755.31,
+        "Acessorios de Ferramentas": 1466.32,
+        "Impermeabilizante": 2144.7,
         "Balcões": 2197.84,
-        "Acessorios de banheiro": 1388.08,
-        "Utilidades": 1097.38,
-        "Limpeza": 274.06,
-        "Ferragens": 1118.3,
-        "TUBOS": 531.11,
+        "Acessorios de banheiro": 1482.44,
+        "Utilidades": 1140.86,
+        "Limpeza": 303.86,
+        "Ferragens": 1201.2,
+        "TUBOS": 552.93,
         "Básicos": 8598.21,
         "Metais Sanitarios": 767.9,
         "EPI": 86.38,
-        "PLÁSTICOS SANITÁRIOS": 433.46,
-        "Ferramentas": 104.85,
+        "PLÁSTICOS SANITÁRIOS": 489.25,
+        "Ferramentas": 158.85,
         "CABOS ELÉTRICOS": 2245.01,
         "FORA DE LINHA": 96.1,
         "ELETRINHOS": 375.8,
         "Jardinagem": 226.79,
-        "Ferramentas Eletricas": 351.9,
+        "Ferramentas Eletricas": 991.8,
         "MÓVEIS": 610.89,
-        "Diversos": 5.7
+        "Diversos": 15.6
       }
     ],
     "CAX": [
@@ -391,37 +391,37 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 6566.54,
-        "Argamassas": 4292.89,
-        "Pintura": 4946.48,
+        "PISOS": 8112.45,
+        "Argamassas": 4468.16,
+        "Pintura": 4965.47,
         "Básicos": 1153.83,
-        "Acessorios de Ferramentas": 594.44,
+        "Acessorios de Ferramentas": 634.14,
         "Ferramentas Manuais": 335.9,
         "Elétrica": 485.55,
-        "Limpeza": 419.9,
-        "Complementos Hidráulicos": 702.59,
-        "Iluminação": 346.51,
+        "Limpeza": 464.3,
+        "Complementos Hidráulicos": 921.09,
+        "Iluminação": 332.51,
         "EPI": 85.7,
-        "Complementos de Pintura": 390.18,
-        "TUBOS": 324.4,
-        "Ferragens": 237.2,
-        "Ferramentas": 58.1,
-        "Conexões": 68.09,
-        "Utilidades": 807.9,
-        "Portas e Esquadrias": 86.6,
-        "Hidráulica": 404.74,
-        "FORA DE LINHA": 3.3,
+        "Complementos de Pintura": 397.78,
+        "TUBOS": 346.9,
+        "Ferragens": 344.5,
+        "Ferramentas": 61.5,
+        "Conexões": 165.97,
+        "Utilidades": 1137.1,
+        "Portas e Esquadrias": 801.49,
+        "Hidráulica": 413.64,
+        "FORA DE LINHA": 70.1,
         "CABOS ELÉTRICOS": 668.99,
         "Louças": 2878.44,
-        "Impermeabilizante": 1411.5,
+        "Impermeabilizante": 1444.4,
         "Acessorios de banheiro": 211.4,
         "Jardinagem": 35.9,
         "PLÁSTICOS SANITÁRIOS": 192.23,
-        "REVESTIMENTOS": 530.15,
+        "REVESTIMENTOS": 5240.11,
         "Metais Sanitarios": 599.59,
-        "Chuveiros": 47.1,
+        "Chuveiros": 222.0,
         "ELETRINHOS": 179.9,
-        "MÓVEIS": 590.04,
+        "MÓVEIS": 621.94,
         "Balcões": 502.94
       }
     ],
@@ -465,40 +465,40 @@ const dashboardData = {
       },
       {
         "date": "2026-04-01",
-        "PISOS": 70389.35,
-        "Pintura": 27678.85,
-        "Louças": 13693.54,
-        "Argamassas": 28379.65,
-        "Básicos": 16655.01,
-        "Portas e Esquadrias": 12829.18,
-        "REVESTIMENTOS": 12725.64,
-        "TUBOS": 1691.83,
-        "Elétrica": 5175.14,
-        "Complementos Hidráulicos": 5189.06,
-        "Ferragens": 1695.0,
-        "Complementos de Pintura": 2516.92,
-        "Iluminação": 4065.0,
+        "PISOS": 87335.75,
+        "Pintura": 30479.25,
+        "Louças": 14527.37,
+        "Argamassas": 33887.74,
+        "Básicos": 17684.69,
+        "Portas e Esquadrias": 14261.56,
+        "REVESTIMENTOS": 22696.66,
+        "TUBOS": 3007.55,
+        "Elétrica": 5385.36,
+        "Complementos Hidráulicos": 5872.44,
+        "Ferragens": 1885.2,
+        "Complementos de Pintura": 2684.82,
+        "Iluminação": 4262.59,
         "Metais Sanitarios": 2023.46,
-        "Limpeza": 1188.01,
-        "Utilidades": 3240.48,
-        "PLÁSTICOS SANITÁRIOS": 1267.51,
+        "Limpeza": 1262.21,
+        "Utilidades": 3853.06,
+        "PLÁSTICOS SANITÁRIOS": 1323.3,
         "CABOS ELÉTRICOS": 4709.83,
-        "Acessorios de Ferramentas": 3216.63,
-        "Ferramentas": 528.23,
-        "Conexões": 1275.47,
-        "Impermeabilizante": 5692.43,
-        "Ferramentas Manuais": 1701.45,
-        "Acessorios de banheiro": 2871.89,
-        "MÓVEIS": 1485.13,
-        "Diversos": 33.37,
-        "Hidráulica": 5707.81,
-        "FORA DE LINHA": 553.6,
-        "EPI": 382.54,
-        "Chuveiros": 2208.82,
+        "Acessorios de Ferramentas": 3427.43,
+        "Ferramentas": 652.73,
+        "Conexões": 1477.18,
+        "Impermeabilizante": 5926.83,
+        "Ferramentas Manuais": 1756.35,
+        "Acessorios de banheiro": 3056.05,
+        "MÓVEIS": 1999.9,
+        "Diversos": 43.27,
+        "Hidráulica": 8127.01,
+        "FORA DE LINHA": 620.4,
+        "EPI": 449.94,
+        "Chuveiros": 2656.92,
         "Balcões": 3463.68,
         "Jardinagem": 623.19,
         "ELETRINHOS": 555.7,
-        "Ferramentas Eletricas": 456.79
+        "Ferramentas Eletricas": 1096.69
       }
     ]
   },
@@ -623,89 +623,89 @@ const dashboardData = {
     },
     {
       "date": "2026-04-01",
-      "INCENOR": 25066.03,
-      "IQUINE": 13311.59,
-      "DO MESTRE": 20897.25,
-      "ARIELLE": 16665.67,
-      "WEBER QUARTZOLIT": 12940.16,
-      "MEGAÓ": 13388.78,
-      "LORENZETTI": 4248.59,
+      "INCENOR": 32662.43,
+      "IQUINE": 13752.46,
+      "DO MESTRE": 24860.65,
+      "ARIELLE": 22582.02,
+      "WEBER QUARTZOLIT": 15217.52,
+      "MEGAÓ": 15175.42,
+      "LORENZETTI": 5287.79,
       "LUZARTE": 7473.77,
-      "BRASILIT": 10651.36,
-      "REALLE": 21660.76,
-      "QUALITY": 5731.87,
-      "ATLAS": 3530.1,
-      "ROCA": 6837.52,
-      "ELIZABETH": 11603.68,
-      "GRANPLAST": 2547.34,
-      "FERTAK COMERCIO E IMPORTAÇÃO": 2147.35,
-      "ANAUGER": 2074.28,
-      "FORTLEV": 5977.48,
-      "MEC-TRONIC": 2424.48,
-      "TECNOGRES": 2791.35,
-      "Perfilplast Industria e Comerc": 4740.12,
+      "BRASILIT": 10750.96,
+      "REALLE": 21884.61,
+      "QUALITY": 7581.65,
+      "ATLAS": 3800.5,
+      "ROCA": 7704.34,
+      "ELIZABETH": 12621.61,
+      "GRANPLAST": 2666.6,
+      "FERTAK COMERCIO E IMPORTAÇÃO": 2322.85,
+      "ANAUGER": 3963.98,
+      "FORTLEV": 7469.57,
+      "MEC-TRONIC": 2492.0,
+      "TECNOGRES": 8769.36,
+      "Perfilplast Industria e Comerc": 5598.22,
       "METALOSA": 504.2,
-      "LEDVANCE": 1212.21,
-      "PADO": 1220.66,
-      "VEDACIT": 1905.91,
+      "LEDVANCE": 1227.11,
+      "PADO": 1380.46,
+      "VEDACIT": 2092.51,
       "GHEL'PLUS": 3621.26,
-      "LEGRAND": 852.61,
-      "ORBI QUIMICA LTDA": 383.25,
+      "LEGRAND": 935.91,
+      "ORBI QUIMICA LTDA": 413.05,
       "STARRETT INDUSTRIA E COMERCIO": 483.69,
       "MADELAR": 2244.15,
-      "ADERE": 459.71,
+      "ADERE": 473.61,
       "BLACK DECKER": 1240.76,
-      "ALIANÇA": 360.5,
+      "ALIANÇA": 440.4,
       "MYPA": 217.0,
-      "NITROLUX": 2279.9,
-      "MARLUVAS": 125.8,
-      "LUCONI": 853.13,
+      "NITROLUX": 2496.49,
+      "MARLUVAS": 185.7,
+      "LUCONI": 1080.02,
       "NORCOLA": 4603.84,
       "BRASFORMA": 402.0,
-      "CORTAG": 592.73,
+      "CORTAG": 596.23,
       "METAIS LEAO": 2132.07,
-      "BEMFIXA": 491.5,
-      "VIQUA": 898.53,
+      "BEMFIXA": 500.0,
+      "VIQUA": 970.33,
       "RHPE": 83.32,
-      "Momfort": 464.19,
-      "KALIPSO": 191.85,
-      "NORTON": 448.64,
-      "ULTRACLEAN": 201.06,
-      "PRATIMIX": 438.53,
-      "PULVITEC": 336.31,
+      "Momfort": 481.59,
+      "KALIPSO": 199.35,
+      "NORTON": 463.04,
+      "ULTRACLEAN": 222.56,
+      "PRATIMIX": 509.43,
+      "PULVITEC": 373.31,
       "TAF": 495.55,
-      "CENSI": 311.3,
-      "Max-Giro": 102.2,
-      "MULT MIX IMPORTADORA": 425.15,
-      "SILVANA": 806.06,
-      "BLUKIT": 860.07,
+      "CENSI": 380.9,
+      "Max-Giro": 112.1,
+      "MULT MIX IMPORTADORA": 473.63,
+      "SILVANA": 875.96,
+      "BLUKIT": 936.57,
       "EXTRALUX": 59.8,
       "COMFORT DOOR": 49.8,
-      "TRAMONTINA": 558.19,
+      "TRAMONTINA": 1041.06,
       "ILUMI": 77.4,
-      "HERC": 747.06,
+      "HERC": 810.95,
       "METALURGICA MOR S/A": 1088.05,
       "BRASFORT": 3.99,
-      "POINTER": 3936.7,
+      "POINTER": 4841.48,
       "PLASTMAR IND E COM": 567.19,
-      "EXATRON": 265.5,
-      "PADRAO FORTE": 595.09,
+      "EXATRON": 320.4,
+      "PADRAO FORTE": 607.59,
       "HIDRACOR": 58.5,
-      "ULTRA CLEAN": 126.4,
-      "KRONA": 77.28,
+      "ULTRA CLEAN": 149.3,
+      "KRONA": 102.62,
       "ASTRA": 98.22,
       "SECALUX": 12.6,
       "INTECH MACHINE": 1128.33,
       "AVANT": 444.09,
       "OVERTIME": 58.8,
-      "BOGNAR": 278.49,
+      "BOGNAR": 358.29,
       "FRANKLIN": 1049.9,
       "DOCOL METAIS": 381.54,
       "COZIMAX": 117.9,
       "COBRECOM": 105.99,
-      "PRATEFIX": 531.4,
+      "PRATEFIX": 563.3,
       "BLACK ELEPHANT": 98.9,
-      "GERDAU": 24.9,
+      "GERDAU": 49.8,
       "TRAMONTINA ELETRIK S.A.": 21.5,
       "CHEMONE": 50.7,
       "TRAMONTINA NORDESTE": 12.2,
@@ -715,62 +715,70 @@ const dashboardData = {
       "BELLA PIA": 191.04,
       "TOP MIX": 2096.94,
       "INCESA": 1230.84,
-      "LEDAN": 32.99
+      "LEDAN": 32.99,
+      "CARMELO FIOR": 5228.3,
+      "BOSCH": 639.9,
+      "VONDER": 54.9,
+      "GABRIELLA": 51.8
     }
   ],
   "fornecedor_loja": {
     "CAM": [
       {
         "n": "INCENOR",
-        "R": 10212.0
+        "R": 12751.67
+      },
+      {
+        "n": "ARIELLE",
+        "R": 10744.1
       },
       {
         "n": "REALLE",
         "R": 10047.0
       },
       {
-        "n": "ARIELLE",
-        "R": 7883.26
-      },
-      {
         "n": "DO MESTRE",
-        "R": 6190.2
+        "R": 8848.08
       },
       {
         "n": "WEBER QUARTZOLIT",
-        "R": 5221.9
+        "R": 5751.17
       },
       {
         "n": "MEGAÓ",
-        "R": 4365.98
+        "R": 4460.88
       },
       {
         "n": "ELIZABETH",
-        "R": 3330.26
+        "R": 4018.51
+      },
+      {
+        "n": "FORTLEV",
+        "R": 3425.59
       },
       {
         "n": "IQUINE",
-        "R": 2977.88
+        "R": 3026.88
       },
       {
         "n": "LUZARTE",
         "R": 2883.06
       },
       {
-        "n": "Perfilplast Industria e Comerc",
-        "R": 2184.94
+        "n": "QUALITY",
+        "R": 2658.61
       },
       {
-        "n": "FORTLEV",
-        "R": 2138.39
+        "n": "Perfilplast Industria e Comerc",
+        "R": 2164.94
+      },
+      {
+        "n": "LORENZETTI",
+        "R": 1980.9
       },
       {
         "n": "ROCA",
         "R": 1961.85
-      },
-      {
-        "n": "QUALITY",
-        "R": 1764.12
       },
       {
         "n": "TECNOGRES",
@@ -781,28 +789,28 @@ const dashboardData = {
         "R": 1255.85
       },
       {
-        "n": "LORENZETTI",
-        "R": 1230.4
-      },
-      {
         "n": "BRASILIT",
-        "R": 1078.7
+        "R": 1178.3
       },
       {
         "n": "MADELAR",
         "R": 879.87
       },
       {
+        "n": "ATLAS",
+        "R": 850.4
+      },
+      {
         "n": "GHEL'PLUS",
         "R": 843.6
       },
       {
-        "n": "ATLAS",
-        "R": 842.5
-      },
-      {
         "n": "GRANPLAST",
         "R": 808.66
+      },
+      {
+        "n": "ANAUGER",
+        "R": 760.28
       },
       {
         "n": "METAIS LEAO",
@@ -813,28 +821,28 @@ const dashboardData = {
         "R": 744.38
       },
       {
-        "n": "MEC-TRONIC",
-        "R": 466.2
+        "n": "VEDACIT",
+        "R": 513.2
       },
       {
-        "n": "ANAUGER",
-        "R": 430.38
+        "n": "MEC-TRONIC",
+        "R": 466.2
       },
       {
         "n": "TAF",
         "R": 419.15
       },
       {
-        "n": "VEDACIT",
-        "R": 387.4
+        "n": "TRAMONTINA",
+        "R": 389.58
+      },
+      {
+        "n": "NITROLUX",
+        "R": 383.92
       },
       {
         "n": "PADO",
         "R": 365.55
-      },
-      {
-        "n": "NITROLUX",
-        "R": 316.24
       },
       {
         "n": "FERTAK COMERCIO E IMPORTAÇÃO",
@@ -845,12 +853,28 @@ const dashboardData = {
         "R": 220.05
       },
       {
+        "n": "HERC",
+        "R": 219.4
+      },
+      {
+        "n": "LUCONI",
+        "R": 211.55
+      },
+      {
         "n": "PRATEFIX",
         "R": 207.6
       },
       {
         "n": "LEDVANCE",
         "R": 204.92
+      },
+      {
+        "n": "PRATIMIX",
+        "R": 173.98
+      },
+      {
+        "n": "CORTAG",
+        "R": 169.99
       },
       {
         "n": "PLASTMAR IND E COM",
@@ -861,28 +885,8 @@ const dashboardData = {
         "R": 169.06
       },
       {
-        "n": "CORTAG",
-        "R": 166.49
-      },
-      {
-        "n": "PRATIMIX",
-        "R": 160.48
-      },
-      {
-        "n": "HERC",
-        "R": 159.5
-      },
-      {
-        "n": "LUCONI",
-        "R": 158.65
-      },
-      {
-        "n": "TRAMONTINA",
-        "R": 129.6
-      },
-      {
         "n": "PULVITEC",
-        "R": 118.66
+        "R": 131.26
       },
       {
         "n": "COZIMAX",
@@ -939,6 +943,10 @@ const dashboardData = {
       {
         "n": "MYPA",
         "R": 61.7
+      },
+      {
+        "n": "MARLUVAS",
+        "R": 59.9
       },
       {
         "n": "BRASFORMA",
@@ -1015,28 +1023,36 @@ const dashboardData = {
     ],
     "CAV": [
       {
-        "n": "INCENOR",
-        "R": 5646.01
-      },
-      {
         "n": "ARIELLE",
-        "R": 5585.57
+        "R": 6151.28
       },
       {
-        "n": "MEGAÓ",
-        "R": 3193.32
+        "n": "INCENOR",
+        "R": 6021.6
+      },
+      {
+        "n": "CARMELO FIOR",
+        "R": 5228.3
       },
       {
         "n": "WEBER QUARTZOLIT",
-        "R": 3132.54
+        "R": 4751.95
+      },
+      {
+        "n": "MEGAÓ",
+        "R": 4350.67
       },
       {
         "n": "DO MESTRE",
-        "R": 2229.17
+        "R": 3040.62
       },
       {
         "n": "IQUINE",
-        "R": 2084.18
+        "R": 2439.15
+      },
+      {
+        "n": "Perfilplast Industria e Comerc",
+        "R": 1932.6
       },
       {
         "n": "LUZARTE",
@@ -1047,24 +1063,28 @@ const dashboardData = {
         "R": 1438.0
       },
       {
+        "n": "TECNOGRES",
+        "R": 1418.53
+      },
+      {
+        "n": "ELIZABETH",
+        "R": 1327.74
+      },
+      {
         "n": "FORTLEV",
-        "R": 1244.73
+        "R": 1253.13
       },
       {
         "n": "ROCA",
         "R": 1239.76
       },
       {
-        "n": "ELIZABETH",
-        "R": 1080.48
-      },
-      {
-        "n": "Perfilplast Industria e Comerc",
-        "R": 1054.5
-      },
-      {
         "n": "FRANKLIN",
         "R": 1049.9
+      },
+      {
+        "n": "ANAUGER",
+        "R": 919.9
       },
       {
         "n": "QUALITY",
@@ -1080,7 +1100,11 @@ const dashboardData = {
       },
       {
         "n": "FERTAK COMERCIO E IMPORTAÇÃO",
-        "R": 499.27
+        "R": 526.07
+      },
+      {
+        "n": "NITROLUX",
+        "R": 513.57
       },
       {
         "n": "MADELAR",
@@ -1091,44 +1115,48 @@ const dashboardData = {
         "R": 488.18
       },
       {
-        "n": "NITROLUX",
-        "R": 473.77
+        "n": "ATLAS",
+        "R": 473.94
       },
       {
-        "n": "ATLAS",
-        "R": 412.74
+        "n": "LORENZETTI",
+        "R": 435.3
       },
       {
         "n": "GRANPLAST",
         "R": 379.3
       },
       {
-        "n": "LORENZETTI",
-        "R": 378.4
-      },
-      {
         "n": "INTECH MACHINE",
         "R": 378.0
       },
       {
-        "n": "ANAUGER",
-        "R": 320.0
+        "n": "TRAMONTINA",
+        "R": 331.59
+      },
+      {
+        "n": "POINTER",
+        "R": 322.0
       },
       {
         "n": "AVANT",
         "R": 266.99
       },
       {
+        "n": "VIQUA",
+        "R": 266.72
+      },
+      {
         "n": "SILVANA",
         "R": 252.6
       },
       {
-        "n": "VIQUA",
-        "R": 236.82
-      },
-      {
         "n": "NORTON",
         "R": 224.95
+      },
+      {
+        "n": "EXATRON",
+        "R": 210.6
       },
       {
         "n": "VEDACIT",
@@ -1141,10 +1169,6 @@ const dashboardData = {
       {
         "n": "Momfort",
         "R": 187.3
-      },
-      {
-        "n": "POINTER",
-        "R": 178.84
       },
       {
         "n": "LUCONI",
@@ -1163,28 +1187,16 @@ const dashboardData = {
         "R": 161.72
       },
       {
-        "n": "EXATRON",
-        "R": 155.7
-      },
-      {
-        "n": "TECNOGRES",
-        "R": 150.47
-      },
-      {
         "n": "LEDVANCE",
         "R": 132.83
       },
       {
+        "n": "BLUKIT",
+        "R": 130.3
+      },
+      {
         "n": "PLASTMAR IND E COM",
         "R": 120.8
-      },
-      {
-        "n": "BLUKIT",
-        "R": 112.5
-      },
-      {
-        "n": "TRAMONTINA",
-        "R": 108.7
       },
       {
         "n": "STARRETT INDUSTRIA E COMERCIO",
@@ -1203,12 +1215,16 @@ const dashboardData = {
         "R": 75.7
       },
       {
+        "n": "KALIPSO",
+        "R": 71.39
+      },
+      {
         "n": "PULVITEC",
         "R": 70.9
       },
       {
-        "n": "KALIPSO",
-        "R": 63.89
+        "n": "LEGRAND",
+        "R": 67.3
       },
       {
         "n": "BEMFIXA",
@@ -1271,10 +1287,6 @@ const dashboardData = {
         "R": 17.2
       },
       {
-        "n": "LEGRAND",
-        "R": 16.9
-      },
-      {
         "n": "MULT MIX IMPORTADORA",
         "R": 15.7
       },
@@ -1293,16 +1305,16 @@ const dashboardData = {
     ],
     "SLM": [
       {
+        "n": "INCENOR",
+        "R": 11829.35
+      },
+      {
         "n": "REALLE",
-        "R": 10251.55
+        "R": 10475.4
       },
       {
         "n": "DO MESTRE",
-        "R": 7852.45
-      },
-      {
-        "n": "INCENOR",
-        "R": 7594.09
+        "R": 8285.03
       },
       {
         "n": "BRASILIT",
@@ -1310,39 +1322,47 @@ const dashboardData = {
       },
       {
         "n": "ELIZABETH",
-        "R": 5992.13
+        "R": 6074.55
       },
       {
         "n": "IQUINE",
-        "R": 5572.85
+        "R": 5609.75
       },
       {
         "n": "MEGAÓ",
-        "R": 4062.57
+        "R": 4577.97
+      },
+      {
+        "n": "ROCA",
+        "R": 3911.19
       },
       {
         "n": "WEBER QUARTZOLIT",
-        "R": 3477.87
+        "R": 3492.77
+      },
+      {
+        "n": "ARIELLE",
+        "R": 3427.86
       },
       {
         "n": "QUALITY",
         "R": 3339.97
       },
       {
-        "n": "ROCA",
-        "R": 3044.37
-      },
-      {
         "n": "LORENZETTI",
-        "R": 2452.19
+        "R": 2509.09
       },
       {
         "n": "GHEL'PLUS",
         "R": 2386.14
       },
       {
+        "n": "ANAUGER",
+        "R": 2283.8
+      },
+      {
         "n": "FORTLEV",
-        "R": 2183.44
+        "R": 2259.55
       },
       {
         "n": "NORCOLA",
@@ -1353,12 +1373,12 @@ const dashboardData = {
         "R": 2096.94
       },
       {
-        "n": "ARIELLE",
-        "R": 2038.1
+        "n": "POINTER",
+        "R": 2014.1
       },
       {
         "n": "ATLAS",
-        "R": 1707.58
+        "R": 1792.38
       },
       {
         "n": "Perfilplast Industria e Comerc",
@@ -1366,27 +1386,23 @@ const dashboardData = {
       },
       {
         "n": "NITROLUX",
-        "R": 1373.9
-      },
-      {
-        "n": "ANAUGER",
-        "R": 1323.9
+        "R": 1463.11
       },
       {
         "n": "MEC-TRONIC",
-        "R": 1290.45
+        "R": 1357.97
       },
       {
-        "n": "POINTER",
-        "R": 1252.48
+        "n": "GRANPLAST",
+        "R": 1298.24
       },
       {
         "n": "INCESA",
         "R": 1230.84
       },
       {
-        "n": "GRANPLAST",
-        "R": 1178.98
+        "n": "FERTAK COMERCIO E IMPORTAÇÃO",
+        "R": 1021.77
       },
       {
         "n": "TECNOGRES",
@@ -1397,36 +1413,40 @@ const dashboardData = {
         "R": 937.8
       },
       {
-        "n": "FERTAK COMERCIO E IMPORTAÇÃO",
-        "R": 907.97
+        "n": "VEDACIT",
+        "R": 898.01
       },
       {
         "n": "BLACK DECKER",
         "R": 872.87
       },
       {
-        "n": "VEDACIT",
-        "R": 870.11
-      },
-      {
         "n": "MADELAR",
         "R": 866.31
+      },
+      {
+        "n": "PADO",
+        "R": 768.81
+      },
+      {
+        "n": "LEDVANCE",
+        "R": 658.84
       },
       {
         "n": "LUZARTE",
         "R": 658.0
       },
       {
-        "n": "LEDVANCE",
-        "R": 643.94
-      },
-      {
-        "n": "PADO",
-        "R": 627.91
+        "n": "BOSCH",
+        "R": 639.9
       },
       {
         "n": "LEGRAND",
         "R": 595.61
+      },
+      {
+        "n": "LUCONI",
+        "R": 571.29
       },
       {
         "n": "INTECH MACHINE",
@@ -1438,35 +1458,35 @@ const dashboardData = {
       },
       {
         "n": "PADRAO FORTE",
-        "R": 437.49
-      },
-      {
-        "n": "LUCONI",
-        "R": 419.2
+        "R": 449.99
       },
       {
         "n": "HERC",
-        "R": 368.77
+        "R": 372.76
+      },
+      {
+        "n": "BLUKIT",
+        "R": 370.2
       },
       {
         "n": "SILVANA",
         "R": 362.5
       },
       {
-        "n": "BEMFIXA",
-        "R": 322.1
+        "n": "VIQUA",
+        "R": 342.3
       },
       {
-        "n": "BLUKIT",
-        "R": 320.4
+        "n": "BEMFIXA",
+        "R": 322.1
       },
       {
         "n": "TRAMONTINA",
         "R": 319.89
       },
       {
-        "n": "VIQUA",
-        "R": 300.4
+        "n": "CENSI",
+        "R": 309.3
       },
       {
         "n": "PRATEFIX",
@@ -1475,6 +1495,10 @@ const dashboardData = {
       {
         "n": "STARRETT INDUSTRIA E COMERCIO",
         "R": 282.6
+      },
+      {
+        "n": "ADERE",
+        "R": 252.36
       },
       {
         "n": "ALIANÇA",
@@ -1489,14 +1513,6 @@ const dashboardData = {
         "R": 240.69
       },
       {
-        "n": "CENSI",
-        "R": 239.7
-      },
-      {
-        "n": "ADERE",
-        "R": 238.46
-      },
-      {
         "n": "CORTAG",
         "R": 172.02
       },
@@ -1505,24 +1521,40 @@ const dashboardData = {
         "R": 159.97
       },
       {
+        "n": "MULT MIX IMPORTADORA",
+        "R": 130.96
+      },
+      {
         "n": "AVANT",
         "R": 128.7
+      },
+      {
+        "n": "NORTON",
+        "R": 106.95
       },
       {
         "n": "COBRECOM",
         "R": 105.99
       },
       {
-        "n": "MULT MIX IMPORTADORA",
-        "R": 101.38
+        "n": "ORBI QUIMICA LTDA",
+        "R": 95.4
       },
       {
-        "n": "NORTON",
-        "R": 97.35
+        "n": "PRATIMIX",
+        "R": 93.85
+      },
+      {
+        "n": "KRONA",
+        "R": 84.82
       },
       {
         "n": "MYPA",
         "R": 79.6
+      },
+      {
+        "n": "PULVITEC",
+        "R": 74.75
       },
       {
         "n": "ULTRACLEAN",
@@ -1533,16 +1565,8 @@ const dashboardData = {
         "R": 69.74
       },
       {
-        "n": "ORBI QUIMICA LTDA",
-        "R": 65.6
-      },
-      {
-        "n": "KRONA",
-        "R": 59.48
-      },
-      {
-        "n": "PULVITEC",
-        "R": 58.25
+        "n": "VONDER",
+        "R": 54.9
       },
       {
         "n": "EXATRON",
@@ -1553,16 +1577,16 @@ const dashboardData = {
         "R": 54.48
       },
       {
+        "n": "GABRIELLA",
+        "R": 51.8
+      },
+      {
         "n": "ILUMI",
         "R": 51.8
       },
       {
         "n": "ASTRA",
         "R": 49.81
-      },
-      {
-        "n": "PRATIMIX",
-        "R": 39.85
       },
       {
         "n": "BLACK ELEPHANT",
@@ -1585,12 +1609,20 @@ const dashboardData = {
         "R": 29.9
       },
       {
+        "n": "Max-Giro",
+        "R": 28.7
+      },
+      {
+        "n": "GERDAU",
+        "R": 24.9
+      },
+      {
         "n": "TRAMONTINA ELETRIK S.A.",
         "R": 21.5
       },
       {
-        "n": "Max-Giro",
-        "R": 18.8
+        "n": "Momfort",
+        "R": 17.4
       },
       {
         "n": "HIDRACOR",
@@ -1611,8 +1643,12 @@ const dashboardData = {
     ],
     "CAX": [
       {
+        "n": "TECNOGRES",
+        "R": 4709.95
+      },
+      {
         "n": "DO MESTRE",
-        "R": 4625.43
+        "R": 4686.92
       },
       {
         "n": "IQUINE",
@@ -1623,36 +1659,44 @@ const dashboardData = {
         "R": 2352.88
       },
       {
+        "n": "ARIELLE",
+        "R": 2258.78
+      },
+      {
+        "n": "INCENOR",
+        "R": 2059.81
+      },
+      {
         "n": "MEGAÓ",
-        "R": 1766.91
+        "R": 1785.9
       },
       {
         "n": "POINTER",
         "R": 1761.0
       },
       {
-        "n": "INCENOR",
-        "R": 1613.93
-      },
-      {
         "n": "REALLE",
         "R": 1362.21
+      },
+      {
+        "n": "WEBER QUARTZOLIT",
+        "R": 1221.63
       },
       {
         "n": "ELIZABETH",
         "R": 1200.81
       },
       {
-        "n": "ARIELLE",
-        "R": 1158.74
-      },
-      {
         "n": "BRASILIT",
         "R": 1114.2
       },
       {
-        "n": "WEBER QUARTZOLIT",
-        "R": 1107.85
+        "n": "QUALITY",
+        "R": 955.29
+      },
+      {
+        "n": "ATLAS",
+        "R": 683.78
       },
       {
         "n": "NORCOLA",
@@ -1667,12 +1711,12 @@ const dashboardData = {
         "R": 570.14
       },
       {
-        "n": "ATLAS",
-        "R": 567.28
+        "n": "FORTLEV",
+        "R": 531.3
       },
       {
         "n": "FERTAK COMERCIO E IMPORTAÇÃO",
-        "R": 490.09
+        "R": 524.99
       },
       {
         "n": "METALURGICA MOR S/A",
@@ -1680,27 +1724,27 @@ const dashboardData = {
       },
       {
         "n": "VEDACIT",
-        "R": 438.7
-      },
-      {
-        "n": "FORTLEV",
-        "R": 410.92
+        "R": 471.6
       },
       {
         "n": "GHEL'PLUS",
         "R": 364.62
       },
       {
+        "n": "LORENZETTI",
+        "R": 362.5
+      },
+      {
         "n": "METAIS LEAO",
         "R": 361.69
       },
       {
-        "n": "BLACK DECKER",
-        "R": 325.7
+        "n": "BLUKIT",
+        "R": 331.34
       },
       {
-        "n": "BLUKIT",
-        "R": 322.44
+        "n": "BLACK DECKER",
+        "R": 325.7
       },
       {
         "n": "DOCOL METAIS",
@@ -1712,11 +1756,15 @@ const dashboardData = {
       },
       {
         "n": "MULT MIX IMPORTADORA",
-        "R": 203.2
+        "R": 222.1
       },
       {
         "n": "PADO",
-        "R": 202.7
+        "R": 221.6
+      },
+      {
+        "n": "LEGRAND",
+        "R": 192.4
       },
       {
         "n": "BELLA PIA",
@@ -1725,10 +1773,6 @@ const dashboardData = {
       {
         "n": "INTECH MACHINE",
         "R": 189.0
-      },
-      {
-        "n": "LORENZETTI",
-        "R": 187.6
       },
       {
         "n": "GRANPLAST",
@@ -1747,48 +1791,60 @@ const dashboardData = {
         "R": 174.6
       },
       {
-        "n": "LEGRAND",
-        "R": 159.5
-      },
-      {
         "n": "VIQUA",
         "R": 141.26
       },
       {
         "n": "NITROLUX",
-        "R": 115.99
+        "R": 135.89
+      },
+      {
+        "n": "LUCONI",
+        "R": 124.19
+      },
+      {
+        "n": "ULTRACLEAN",
+        "R": 107.5
       },
       {
         "n": "BRASFORMA",
         "R": 102.9
       },
       {
-        "n": "LUCONI",
-        "R": 102.29
+        "n": "PULVITEC",
+        "R": 96.4
       },
       {
         "n": "CORTAG",
         "R": 92.5
       },
       {
+        "n": "SILVANA",
+        "R": 91.8
+      },
+      {
         "n": "ADERE",
         "R": 89.0
       },
       {
-        "n": "PULVITEC",
-        "R": 88.5
+        "n": "ALIANÇA",
+        "R": 79.9
       },
       {
-        "n": "ULTRACLEAN",
-        "R": 86.0
+        "n": "BOGNAR",
+        "R": 79.8
       },
       {
         "n": "PRATIMIX",
-        "R": 68.1
+        "R": 71.5
       },
       {
         "n": "MARLUVAS",
         "R": 65.9
+      },
+      {
+        "n": "NORTON",
+        "R": 57.35
       },
       {
         "n": "STARRETT INDUSTRIA E COMERCIO",
@@ -1799,8 +1855,8 @@ const dashboardData = {
         "R": 54.9
       },
       {
-        "n": "NORTON",
-        "R": 52.55
+        "n": "PRATEFIX",
+        "R": 51.8
       },
       {
         "n": "HERC",
@@ -1827,12 +1883,8 @@ const dashboardData = {
         "R": 24.9
       },
       {
-        "n": "SILVANA",
-        "R": 21.9
-      },
-      {
-        "n": "PRATEFIX",
-        "R": 19.9
+        "n": "ULTRA CLEAN",
+        "R": 22.9
       },
       {
         "n": "KALIPSO",
@@ -1843,12 +1895,12 @@ const dashboardData = {
         "R": 18.6
       },
       {
-        "n": "PADRAO FORTE",
-        "R": 17.6
+        "n": "BEMFIXA",
+        "R": 18.1
       },
       {
-        "n": "BEMFIXA",
-        "R": 9.6
+        "n": "PADRAO FORTE",
+        "R": 17.6
       }
     ]
   }
