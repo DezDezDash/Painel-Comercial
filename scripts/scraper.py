@@ -19,8 +19,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-LOGIN_URL  = "http://app.comercialdezdez.com.br:8080/loja/publico/login.jsf"
-ADMIN_URL  = "http://app.comercialdezdez.com.br:8080/loja/admin/default.jsf"
+LOGIN_URL  = "https://webapp.comercialdezdez.com.br/loja/publico/login.jsf"
+ADMIN_URL  = "https://webapp.comercialdezdez.com.br/loja/admin/default.jsf"
 
 SITE_LOGIN = os.environ.get("SITE_LOGIN", "")
 SITE_SENHA = os.environ.get("SITE_SENHA", "")
