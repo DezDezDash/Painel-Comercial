@@ -9,7 +9,7 @@ import os
 import json
 import re
 import time
-from datetime import date
+from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
 from selenium import webdriver
@@ -283,7 +283,8 @@ def run_extraction(driver, loja_code, loja_label, por_option, start_str, end_str
 def main():
     if not SITE_LOGIN or not SITE_SENHA:
         raise RuntimeError("SITE_LOGIN e SITE_SENHA não definidos nas variáveis de ambiente.")
-    today     = date.today()
+    BRT       = timezone(timedelta(hours=-3))
+    today     = datetime.now(BRT).date()
     start_str = f"01/{today.month:02d}/{today.year}"
     end_str   = f"{today.day:02d}/{today.month:02d}/{today.year}"
     print(f"Período: {start_str} → {end_str}")
