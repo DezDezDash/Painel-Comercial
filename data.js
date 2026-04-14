@@ -1,8 +1,8 @@
 // Auto-gerado pelo GitHub Actions — não editar manualmente.
-// Última atualização: 2026-04-14, dia 14
+// Última atualização: 2026-04-14, dia 13
 const dashboardData = {
-  "gerado_em": "2026-04-14",
-  "parcialDia": 14,
+  "gerado_em": "2026-04-13",
+  "parcialDia": 13,
   "month_key": "2026-04-01",
   "parcial": {
     "CAM": 209380.75,
@@ -12,7 +12,7 @@ const dashboardData = {
   },
   "vendas_por_vendedor": {
     "CAM": {
-      "dia": 14,
+      "dia": 13,
       "meta": 80000,
       "rows": [
         {
@@ -42,7 +42,7 @@ const dashboardData = {
       ]
     },
     "CAV": {
-      "dia": 14,
+      "dia": 13,
       "meta": 80000,
       "rows": [
         {
@@ -64,7 +64,7 @@ const dashboardData = {
       ]
     },
     "SLM": {
-      "dia": 14,
+      "dia": 13,
       "meta": 80000,
       "rows": [
         {
@@ -98,7 +98,7 @@ const dashboardData = {
       ]
     },
     "CAX": {
-      "dia": 14,
+      "dia": 13,
       "meta": 80000,
       "rows": [
         {
