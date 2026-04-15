@@ -198,6 +198,7 @@ var ARG_CLR={"Do Mestre":"#4f8ef7","Quartzolit":"#f7894f"};
 var PAL=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f7c94f","#f74f7e","#4fd1f7","#8ef74f"];
 var PCLR=["#4f8ef7","#f7c94f","#4fbf8e","#f7894f","#c97af7","#f74f7e","#a3e635","#8b9dc3"];
 var TABS=["🎯 Metas","📊 Parcial","📋 Resumo","📈 Faturamento","🧩 Mix Produtos","🏆 Fornecedores","🏠 Pisos"];
+var CURRENT_MONTH_KEY="";
 
 function lbl(d){var p=d.split("-");return MES[+p[1]-1]+"/"+p[0].slice(2);}
 function fmtK(v){return v==null?"—":"R$ "+(v/1000).toFixed(0)+"k";}
@@ -600,15 +601,26 @@ var VEND_EXCLUIDOS_EXATOS=["Lilian","LILIAN","Alci Travassos"];
       var vv=d.vendas_por_vendedor;
       ["CAM","CAV","SLM","CAX"].forEach(function(k){if(vv[k])DEFAULT_VEND[k]=vv[k];});
     }
+    // Mescla ao invés de substituir — preserva histórico hardcoded desde 2024
+    function _mergeArr(dst,src){
+      if(!src||!src.length)return;
+      src.forEach(function(entry){
+        var idx=-1;
+        for(var i=0;i<dst.length;i++){if(dst[i].date===entry.date){idx=i;break;}}
+        if(idx>=0)dst[idx]=entry; else dst.push(entry);
+      });
+      dst.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});
+    }
+    if(d.month_key)CURRENT_MONTH_KEY=d.month_key;
     if(d.linha_produto){
       var lp=d.linha_produto;
-      if(lp.CAM)DEFAULT_LP_CAM=lp.CAM;
-      if(lp.CAV)DEFAULT_LP_CAV=lp.CAV;
-      if(lp.SLM)DEFAULT_LP_SLM=lp.SLM;
-      if(lp.CAX)DEFAULT_LP_CAX=lp.CAX;
-      if(lp.Rede)DEFAULT_LP=lp.Rede;
+      if(lp.CAM)_mergeArr(DEFAULT_LP_CAM,lp.CAM);
+      if(lp.CAV)_mergeArr(DEFAULT_LP_CAV,lp.CAV);
+      if(lp.SLM)_mergeArr(DEFAULT_LP_SLM,lp.SLM);
+      if(lp.CAX)_mergeArr(DEFAULT_LP_CAX,lp.CAX);
+      if(lp.Rede)_mergeArr(DEFAULT_LP,lp.Rede);
     }
-    if(d.fornecedor)DEFAULT_RANK=d.fornecedor;
+    if(d.fornecedor)_mergeArr(DEFAULT_RANK,d.fornecedor);
     S.lp=normalizeLPData(DEFAULT_LP);
     S.lpCAM=normalizeLPData(DEFAULT_LP_CAM);
     S.lpCAV=normalizeLPData(DEFAULT_LP_CAV);
@@ -997,14 +1009,17 @@ function buildTabParcial(){
   // RANK: apenas consolidado (DEFAULT_RANK) — chips só na visão Rede
   var _lpMap={TOTAL:S.lp,CAM:S.lpCAM,CAV:S.lpCAV,SLM:S.lpSLM,CAX:S.lpCAX};
   var histSrc=mode==="lp"?(_lpMap[st]||S.lp):(st==="TOTAL"?S.rank:null);
+  // mês corrente (parcial, ainda aberto) — excluir dos cálculos históricos
+  var _curMK=CURRENT_MONTH_KEY||(function(){var n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-01";})();
+  var histClosed=histSrc?histSrc.filter(function(e){return e.date!==_curMK;}):[];
   // last closed month available
-  var histLast=histSrc&&histSrc.length?histSrc[histSrc.length-1]:null;
+  var histLast=histClosed.length?histClosed[histClosed.length-1]:null;
   // same month last year
   var _nowH=new Date();
   var _yoyDate=(_nowH.getFullYear()-1)+"-"+String(_nowH.getMonth()+1).padStart(2,"0")+"-01";
-  var histYoY=histSrc?histSrc.find(function(d){return d.date===_yoyDate;})||null:null;
+  var histYoY=histClosed.length?histClosed.find(function(d){return d.date===_yoyDate;})||null:null;
   // last 12 closed months
-  var hist12=histSrc?histSrc.slice(-12):[];
+  var hist12=histClosed.slice(-12);
 
   function histTotal(entry){
     if(!entry)return 0;
