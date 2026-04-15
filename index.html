@@ -177,6 +177,10 @@ function workDays(dateStr,store){
   var total=new Date(yr,mo,0).getDate();
   var off=0;
   for(var d=1;d<=total;d++){if(isHoliday(yr,mo,d,store))off++;}
+  var prefix=String(yr)+"-"+String(mo).padStart(2,"0")+"-";
+  DIAS_FECHADOS.forEach(function(ds){
+    if(ds.indexOf(prefix)===0){var day=parseInt(ds.slice(8));if(!isHoliday(yr,mo,day,store))off++;}
+  });
   return total-off;
 }
 function yoyVar(data,date,accessor){
