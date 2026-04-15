@@ -943,22 +943,22 @@ function buildTabParcial(){
       } else { clr="#f7c94f"; }
     }
     var chip=h("span",{style:{
-      display:"inline-flex",alignItems:"center",gap:"2px",
-      background:"#1a2035",border:"1px solid #2d3550",borderRadius:"4px",
-      padding:"1px 5px",fontSize:"9px",fontWeight:"600",color:clr,
-      whiteSpace:"nowrap"
+      display:"inline-flex",alignItems:"center",gap:"3px",
+      background:"#1e2540",border:"1px solid #3a4560",borderRadius:"5px",
+      padding:"2px 7px",fontSize:"10px",fontWeight:"600",color:clr,
+      whiteSpace:"nowrap",lineHeight:"1.4"
     }});
-    chip.appendChild(h("span",{style:{color:"#c0c8e0",fontSize:"9px",fontWeight:"700",marginRight:"2px"}},[label]));
-    chip.appendChild(h("span",{style:{color:"#4a5270",fontSize:"9px",fontWeight:"400"}},["·"]));
-    if(arrow)chip.appendChild(h("span",{style:{marginLeft:"1px"}},[arrow]));
+    chip.appendChild(h("span",{style:{color:"#a0aac0",fontSize:"10px",fontWeight:"600"}},[label]));
+    chip.appendChild(h("span",{style:{color:"#3a4560",fontSize:"10px"}},["·"]));
+    if(arrow)chip.appendChild(h("span",{},[arrow]));
     chip.appendChild(h("span",{},[pctStr]));
     return chip;
   }
 
   var card=h("div",{className:"card",style:{padding:"14px 16px"}});
   var PAL=["#4f8ef7","#f7894f","#4fbf8e","#c97af7","#f74f7e","#f7c94f","#22d3ee","#a3e635","#f43f5e","#fbbf24"];
-  var _lastLabel=histLast?histLast.date.slice(0,7).replace(/^(\d{4})-(\d{2})$/,"$2/$1").replace(/^0/,""):"ant.";
-  var _yoyLabel=histYoY?histYoY.date.slice(0,7).replace(/^(\d{4})-(\d{2})$/,"$2/$1").replace(/^0/,""):"a/a";
+  var _lastLabel=histLast?(histLast.date.slice(5,7)+"/"+histLast.date.slice(2,4)):"ant.";
+  var _yoyLabel=histYoY?(histYoY.date.slice(5,7)+"/"+histYoY.date.slice(2,4)):"a/a";
 
   stData.forEach(function(row,i){
     var pct=total>0?row.R/total:0;
@@ -993,11 +993,7 @@ function buildTabParcial(){
       var yoyChip=pctChip(_yoyLabel,yoyV,momV);
       if(yoyChip)strip.appendChild(yoyChip);
       var avgChip=pctChip("méd12m",avg12V,null);
-      if(avgChip){
-        // style avg differently (neutral gray border)
-        avgChip.style.borderColor="#3a4560";
-        strip.appendChild(avgChip);
-      }
+      if(avgChip)strip.appendChild(avgChip);
 
       rrow.appendChild(strip);
     }
