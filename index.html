@@ -615,6 +615,29 @@ var VEND_EXCLUIDOS_EXATOS=["Lilian","LILIAN","Alci Travassos"];
     S.lpSLM=normalizeLPData(DEFAULT_LP_SLM);
     S.lpCAX=normalizeLPData(DEFAULT_LP_CAX);
     S.rank=DEFAULT_RANK.slice();
+    // ── Atualiza PARCIAL_3003 com dados do scraper (Fornecedores + Mix) ──────
+    if(d.fornecedor_loja){
+      ["CAM","CAV","SLM","CAX"].forEach(function(loja){
+        if(!d.fornecedor_loja[loja])return;
+        if(!PARCIAL_3003[loja])PARCIAL_3003[loja]={};
+        PARCIAL_3003[loja].forn=d.fornecedor_loja[loja];
+      });
+    }
+    if(d.linha_produto&&d.month_key){
+      var mkey=d.month_key;
+      ["CAM","CAV","SLM","CAX"].forEach(function(loja){
+        var arr=d.linha_produto[loja];
+        if(!arr||!arr.length)return;
+        var cur=arr.find(function(e){return e.date===mkey;})||arr[arr.length-1];
+        if(!cur)return;
+        var norm=normalizeLPRecord(cur);
+        var lpSorted=Object.keys(norm).filter(function(k){return k!=="date";})
+          .map(function(k){return{n:k,R:norm[k]};})
+          .sort(function(a,b){return b.R-a.R;});
+        if(!PARCIAL_3003[loja])PARCIAL_3003[loja]={};
+        PARCIAL_3003[loja].lp=lpSorted;
+      });
+    }
   }catch(e){console.warn("dashboardData: erro ao aplicar dados externos",e);}
 })();
 
