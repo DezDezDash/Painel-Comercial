@@ -172,6 +172,7 @@ function isHoliday(yr,mo,dy,store){
   if(store==="CAM"&&new Date(yr,mo-1,dy).getDay()===0)return true;
   return false;
 }
+var DIAS_FECHADOS=["2026-04-03"];
 function workDays(dateStr,store){
   var p=dateStr.split("-");var yr=+p[0],mo=+p[1];
   var total=new Date(yr,mo,0).getDate();
