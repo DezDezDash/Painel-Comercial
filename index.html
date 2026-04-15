@@ -948,8 +948,9 @@ function buildTabParcial(){
       padding:"1px 5px",fontSize:"9px",fontWeight:"600",color:clr,
       whiteSpace:"nowrap"
     }});
-    chip.appendChild(h("span",{style:{color:"#5a6580",fontSize:"8px",fontWeight:"400",marginRight:"1px"}},[label]));
-    if(arrow)chip.appendChild(h("span",{},[arrow]));
+    chip.appendChild(h("span",{style:{color:"#c0c8e0",fontSize:"9px",fontWeight:"700",marginRight:"2px"}},[label]));
+    chip.appendChild(h("span",{style:{color:"#4a5270",fontSize:"9px",fontWeight:"400"}},["·"]));
+    if(arrow)chip.appendChild(h("span",{style:{marginLeft:"1px"}},[arrow]));
     chip.appendChild(h("span",{},[pctStr]));
     return chip;
   }
@@ -997,16 +998,7 @@ function buildTabParcial(){
         avgChip.style.borderColor="#3a4560";
         strip.appendChild(avgChip);
       }
-      // current month badge for comparison context
-      var curChip=h("span",{style:{
-        display:"inline-flex",alignItems:"center",gap:"2px",
-        background:"#1a2035",border:"1px solid "+PAL[i%PAL.length]+"55",borderRadius:"4px",
-        padding:"1px 5px",fontSize:"9px",fontWeight:"700",color:PAL[i%PAL.length],
-        whiteSpace:"nowrap"
-      }});
-      curChip.appendChild(h("span",{style:{color:"#5a6580",fontSize:"8px",fontWeight:"400",marginRight:"1px"}},["atual"]));
-      curChip.appendChild(h("span",{},[+(pct*100).toFixed(1)+"%"]));
-      strip.appendChild(curChip);
+
       rrow.appendChild(strip);
     }
     card.appendChild(rrow);
