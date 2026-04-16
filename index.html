@@ -2342,13 +2342,20 @@ function buildTabMetas(){
   // ── Totais da rede ─────────────────────────────────────────────────────────
   var totMeta=STORES.reduce(function(a,s){return a+(S.metas[s]||0);},0);
   var totParc=STORES.reduce(function(a,s){return a+(S.parcial[s]||0);},0);
-  var wPace=totMeta>0?STORES.reduce(function(a,s){return a+(S.metas[s]||0)*pct(s);},0)/totMeta:pct("CAV");
+  // Projeção = soma das projeções individuais (cada loja no seu próprio ritmo)
+  var projRede=STORES.reduce(function(a,s){var pc=pct(s);return a+(pc>0?(S.parcial[s]||0)/pc:0);},0);
+  var wPace=projRede>0?totParc/projRede:pct("CAV"); // pace efetivo (para display)
   var pctRede=totMeta>0?totParc/totMeta:0;
-  var projRede=wPace>0?totParc/wPace:0;
   var defRede=projRede-totMeta;
   var faltaRede=Math.max(0,totMeta-totParc);
-  var medAtualRede=elAll>0?totParc/elAll:0;
-  var medNecRede=(totAll-elAll)>0?faltaRede/(totAll-elAll):0;
+  // Média atual: soma das médias diárias por loja (cada uma no seu calendário)
+  var medAtualRede=STORES.reduce(function(a,s){var e=el(s);return a+(e>0?(S.parcial[s]||0)/e:0);},0);
+  // Média necessária: soma das médias diárias necessárias por loja
+  var medNecRede=STORES.reduce(function(a,s){
+    var r=tot(s)-el(s);
+    var f=Math.max(0,(S.metas[s]||0)-(S.parcial[s]||0));
+    return a+(r>0?f/r:0);
+  },0);
   var semRede=pctRede>=wPace?"#4fbf8e":pctRede>=(wPace-0.15)?"#f7c94f":"#f74f7e";
 
   // ── Header ─────────────────────────────────────────────────────────────────
