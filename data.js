@@ -1,5 +1,5 @@
 // Auto-gerado pelo GitHub Actions — não editar manualmente.
-// Última atualização: 2026-04-15, dia 15
+// Última atualização: 2026-04-16, dia 15
 const dashboardData = {
   "gerado_em": "2026-04-15",
   "parcialDia": 15,
