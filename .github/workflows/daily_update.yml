@@ -2,7 +2,7 @@ name: Atualização Automática do Dashboard
 
 on:
   schedule:
-    - cron: "0 22 * * *"  # Diariamente às 19h BRT (UTC-3)
+    - cron: "0 23 * * *"  # Diariamente às 20h BRT (UTC-3)
   workflow_dispatch:           # Permite disparar manualmente
 
 permissions:
