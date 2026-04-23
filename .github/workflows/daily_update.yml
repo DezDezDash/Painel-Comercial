@@ -44,5 +44,6 @@ jobs:
             echo "Sem alterações."
           else
             git commit -m "Auto-update: $(TZ='America/Recife' date +'%d/%m/%Y %H:%M') BRT"
+            git pull --rebase origin main
             git push origin HEAD
           fi
